@@ -1,0 +1,51 @@
+
+        // const sLastModified = localStorage.getItem(`Last-Modified-${username}`);
+
+        // const headers = {};
+        // if (sLastModified) {
+        //   headers["If-Modified-Since"] = sLastModified;
+        // }
+
+        // const response = await fetch(`${data.user.repos_url}`, {
+        //   method: "GET",
+        //   credentials: "include",
+        //   headers,
+        // });
+
+        // let nextData = null;
+        // if (response.ok) {
+        //   // Only attempt to parse the JSON if the response status indicates success (200-299)
+        //   if (response.status !== 304) {
+        //     nextData = await response.json();
+        //   }
+        // } else {
+        //   console.log("Not Modified");
+        // }
+        // if (response.status === 304) {
+        //   const repos = JSON.parse(
+        //     localStorage.getItem(`repos-${username}`) || "[]"
+        //   );
+        //   setRepositories(repos);
+        //   setLoading(false);
+        //   return;
+        // } else {
+        //   if (nextData && nextData.code === 200) {
+        //     setRepositories(nextData.repos.reverse());
+        //     localStorage.setItem(
+        //       `repos-${username}`,
+        //       JSON.stringify(nextData.repos.reverse())
+        //     );
+        //     const lastModified = response.headers.get("Last-Modified");
+        //     localStorage.setItem(
+        //       `Last-Modified-${username}`,
+        //       `${lastModified}`
+        //     );
+        //   }
+        //   if (nextData.code === 401) {
+        //     navigate("/login");
+        //     setLoading(false);
+        //     return;
+        //   }
+
+        //   setLoading(false);
+        // }
