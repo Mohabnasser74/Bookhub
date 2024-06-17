@@ -18,7 +18,7 @@ const SignUp = () => {
     try {
       setLoading(true);
       const data = await (
-        await fetch(`${api}/users/signUp`, {
+        await fetch(`${api}/users/signup`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
