@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
-import { useSnackbar } from "notistack";
+import { Link, useParams } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa6";
-import { api } from "../../main";
 import Spinner from "../Spinner";
 
 const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {

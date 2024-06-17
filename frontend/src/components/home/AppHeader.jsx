@@ -32,7 +32,7 @@ const AppHeader = ({ children }) => {
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {user.isAuthenticated && user.user.login === username && (
                 <Link to="/new">
                   <button className="text-white font-bold">
