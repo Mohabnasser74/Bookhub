@@ -7,7 +7,7 @@ const UserRepository = require("../models/repositories.model");
 const asyncWrapper = require("../middleware/asyncWrapper");
 const { SUCCESS, FAIL, ERROR } = require("../utils/httpStatusText");
 
-const baseUrl = `http://localhost:${process.env.PORT}`;
+const baseUrl = "https://bookhub-ik4s.onrender.com";
 
 const getUser = asyncWrapper(async (req, res, next) => {
   const username = req.params.username;
