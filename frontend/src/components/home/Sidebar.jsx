@@ -49,7 +49,7 @@ const Sidebar = ({ user, onClose }) => {
       onClick={onClose}>
       <div
         onClick={(event) => event.stopPropagation()}
-        className="fixed right-0 top-0 bg-gray-800 min-h-screen w-[300px] max-w-full rounded-l-md text-white p-4">
+        className="fixed right-0 top-0 bg-zinc-900 min-h-screen w-[300px] max-w-full rounded-l-md text-white p-4">
         <div className="flex justify-between items-center pb-3 border-b-2 border-y-gray-600 border-solid ">
           <div className="flex items-center">
             <img className="mr-2.5" src={`${user.user?.avatar_url}`} alt="user-image" />

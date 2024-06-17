@@ -5,8 +5,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 
-// https://books-store-api-8uzz.onrender.com
-export const api = "http://localhost:5000";
+export const api = "https://bookhub-ik4s.onrender.com";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>

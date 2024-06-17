@@ -3,17 +3,17 @@ import BooksTable from "./BooksTable";
 import BooksCard from "./BooksCard";
 import Spinner from "../Spinner";
 
-const HomeModel = ({ books, username, isAuthenticated, loading }) => {
+const HomeModel = ({ books, loading }) => {
   const [sBStorge, setSBStorge] = useState(
     localStorage.getItem("switch_button")
   );
 
   useEffect(() => {
-    if (sBStorge === "table") {
-      localStorage.setItem("switch_button", "table");
+    if (sBStorge === "card") {
+      localStorage.setItem("switch_button", "card");
       setSBStorge(localStorage.getItem("switch_button"));
     } else {
-      localStorage.setItem("switch_button", "card");
+      localStorage.setItem("switch_button", "table");
       setSBStorge(localStorage.getItem("switch_button"));
     }
   }, [sBStorge]);
@@ -21,11 +21,11 @@ const HomeModel = ({ books, username, isAuthenticated, loading }) => {
   if (loading) return <Spinner />;
 
   return (
-    <div className="p-4 bg-gray-800 min-h-screen text-white capitalize">
+    <div className="p-4">
       {sBStorge === "table" ? (
-        <BooksTable books={books} isAuthenticated={isAuthenticated} />
+        <BooksTable books={books} />
       ) : (
-        <BooksCard books={books} isAuthenticated={isAuthenticated} />
+        <BooksCard books={books} />
       )}
     </div>
   );

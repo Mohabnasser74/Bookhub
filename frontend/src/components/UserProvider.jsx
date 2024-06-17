@@ -22,10 +22,10 @@ const UserProvider = ({ children }) => {
         if (!authData.isAuthenticated) {
           setUser({
             isAuthenticated: authData.isAuthenticated,
-            user: null,
+            user: {},
           });
           return;
-        };
+        }
         if (authData.isAuthenticated) {
           const response = await fetch(`${api}/users/${authData.username}`, {
             method: "GET",
@@ -45,7 +45,7 @@ const UserProvider = ({ children }) => {
             setUser(data);
             return;
           }
-        };
+        }
       } catch (error) {
         console.log(error);
       }

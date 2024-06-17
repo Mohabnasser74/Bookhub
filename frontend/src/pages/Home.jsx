@@ -8,8 +8,6 @@ export default function Home() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { user } = useUser();
-
   useEffect(() => {
     (async () => {
       try {
@@ -22,7 +20,6 @@ export default function Home() {
             },
           })
         ).json();
-
         if (data.code === 200) {
           setBooks(data.data.books);
         }
@@ -35,14 +32,5 @@ export default function Home() {
   }, []);
 
   if (loading) return <Spinner />;
-  return (
-    <Suspense fallback={<Spinner />}>
-      <HomeModel
-        books={books}
-        username={user?.user?.login}
-        isAuthenticated={user?.isAuthenticated}
-        loading={loading}
-      />
-    </Suspense>
-  );
+  return <HomeModel books={books} loading={loading} />;
 }

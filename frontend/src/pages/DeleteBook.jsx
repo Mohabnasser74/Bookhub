@@ -79,20 +79,23 @@ const DeleteBooks = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-800 min-h-screen text-white capitalize">
-      {/* <BackButton /> */}
+    <div className="p-4">
       {loading && <Spinner />}
       <h1 className="text-3xl my-4">Delete Book</h1>
-      <div className="my-4 mx-auto border-y-gray-600 border-solid border rounded-xl w-fit p-4">
+      <div className="my-4 mx-auto border-sky-400 border-solid border rounded-xl w-fit p-4">
         <h1 className="text-2xl my-4">
           Are you sure you want to delete this book?
         </h1>
         <table className="w-full border-separate border-spacing-2">
           <thead>
             <tr>
-              <th className="border border-slate-600 rounded-md">Title</th>
-              <th className="border border-slate-600 rounded-md">Author</th>
-              <th className="border border-slate-600 rounded-md">
+              <th className="border border-slate-600 rounded-md text-green-500">
+                Title
+              </th>
+              <th className="border border-slate-600 rounded-md text-green-500">
+                Author
+              </th>
+              <th className="border border-slate-600 rounded-md text-green-500">
                 publish Year
               </th>
             </tr>

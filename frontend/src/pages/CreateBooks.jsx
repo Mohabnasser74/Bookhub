@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
 import { api } from "../main";
 import Spinner from "../components/Spinner";
@@ -53,11 +52,10 @@ const CreateBooks = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-800 min-h-screen text-white capitalize">
-      {/* <BackButton /> */}
+    <div className="p-4">
       {loading && <Spinner />}
       <h1 className="text-3xl my-4">Create Book</h1>
-      <div className="my-4 mx-auto border-y-gray-600 border-solid border rounded-xl w-fit p-4">
+      <div className="my-4 mx-auto border-sky-400 border-solid border rounded-xl w-fit p-4">
         <div className="my-4 flex flex-col w-96">
           <label htmlFor="title">Title</label>
           <input

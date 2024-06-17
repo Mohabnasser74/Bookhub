@@ -12,6 +12,12 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
 
   const { username } = useParams();
 
+  // Utility function to check if the response is JSON
+  const isJSON = (response) => {
+    const contentType = response.headers.get("content-type");
+    return contentType && contentType.indexOf("application/json") !== -1;
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -36,13 +42,19 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
         });
 
         if (response.status === 200) {
-          const responseData = await response.json();
-          const ReposReverse = responseData.repos.reverse();
-          setRepositories(ReposReverse);
-          const responseToCache = new Response(JSON.stringify(responseData), {
-            headers: { "Last-Modified": response.headers.get("Last-Modified") },
-          });
-          await cache.put(cacheKey, responseToCache);
+          if (isJSON(response)) {
+            const responseData = await response.json();
+            const ReposReverse = responseData.repos.reverse();
+            setRepositories(ReposReverse);
+            const responseToCache = new Response(JSON.stringify(responseData), {
+              headers: {
+                "Last-Modified": response.headers.get("Last-Modified"),
+              },
+            });
+            await cache.put(cacheKey, responseToCache);
+          } else {
+            console.error("Response was not JSON:", await response.text());
+          }
           setLoading(false);
           return;
         }
@@ -59,7 +71,7 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
         console.error(error);
       }
     })();
-  }, []);
+  }, [reposUrl]);
 
   if (isUserFound && loading) return <Spinner />;
 
@@ -68,13 +80,19 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
       {isUserFound ? (
         <div>
           {reposCount <= 0 ? (
-            <h1 className="text-3xl font-bold text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="text-3xl font-bold text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               {user.user?.login === username ? (
-                "You doesn’t have any repositories yet."
+                <span>
+                  <span className="text-green-500">You</span> doesn’t have any
+                  repositories yet.
+                </span>
               ) : (
-                <span>{username} doesn’t have any repositories yet.</span>
+                <span>
+                  <span className="text-green-500">{username}</span> doesn’t
+                  have any repositories yet.
+                </span>
               )}
-            </h1>
+            </div>
           ) : (
             <div className="w-full p-4 capitalize ">
               {repositories.map((repo, i) => (
@@ -86,9 +104,11 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
                   <div className="mb-2 flex justify-between items-center ">
                     <Link
                       to={`${
-                        user.isAuthenticated ? repo.bookId._id : "/login"
+                        user.isAuthenticated
+                          ? repo.bookId._id
+                          : `/login?return_to=/${username}/${repo.bookId._id}`
                       }`}
-                      className="text-2xl no-underline hover:underline">
+                      className="text-green-500 text-2xl no-underline hover:underline">
                       {repo.bookId.title}
                     </Link>
                     <button

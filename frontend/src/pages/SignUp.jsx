@@ -59,9 +59,11 @@ const SignUp = () => {
   return (
     <div className="p-4">
       <h1 className="text-3xl my-4">SignUp</h1>
-      <div className="my-4 mx-auto border-y-gray-600 border-solid border rounded-xl w-fit p-4">
+      <div className="my-4 mx-auto border-sky-400 border-solid border rounded-xl w-fit p-4">
         <div className="my-4 flex flex-col w-96">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username" className="text-green-500">
+            Username
+          </label>
           <input
             type="text"
             id="username"
@@ -69,7 +71,9 @@ const SignUp = () => {
             className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="text-green-500">
+            Email
+          </label>
           <input
             type="email"
             id="email"
@@ -77,7 +81,9 @@ const SignUp = () => {
             className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="text-green-500">
+            Password
+          </label>
           <input
             type="password"
             id="password"

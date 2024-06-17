@@ -15,7 +15,7 @@ const EditBook = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    if (user.user?.login !== username) {
+    if (user.user && user.user.login !== username) {
       setLoading(false);
       enqueueSnackbar("Forbidden", { variant: "error" });
       navigate("/");
@@ -35,7 +35,7 @@ const EditBook = () => {
               "Content-Type": "application/json",
               Accept: "application/json",
               Referer: `${api}/${username}/${id}/edit`,
-              "Cache-Control": "no-cache",
+              // "Cache-Control": "no-cache",
             },
           })
         ).json();
@@ -107,33 +107,38 @@ const EditBook = () => {
   };
 
   if (loading) return <Spinner />;
-  return (
-    <div className="p-4 bg-gray-800 min-h-screen text-white capitalize">
-      <h1 className="text-3xl my-4">Edit Book</h1>
-      <div className="my-4 mx-auto border-y-gray-600 border-solid border rounded-xl w-fit p-4">
-        <div className="my-4 flex flex-col w-96">
-          <label htmlFor="title">Title</label>
-          <input
-            value={title}
-            type="text"
-            id="title"
-            placeholder="New Title"
-            className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <button
-            className={`${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-500 hover:bg-green-400"
-            }  p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl text-center text-white font-semibold text-lg`}
-            onClick={loading ? null : handleSaveBook}>
-            Save
-          </button>
+
+  if (user || user.user) {
+    return (
+      <div className="p-4">
+        <h1 className="text-3xl my-4">Edit Book</h1>
+        <div className="my-4 mx-auto border-sky-400 border-solid border rounded-xl w-fit p-4">
+          <div className="my-4 flex flex-col w-96">
+            <label htmlFor="title" className="text-green-500">
+              Title
+            </label>
+            <input
+              value={title}
+              type="text"
+              id="title"
+              placeholder="New Title"
+              className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <button
+              className={`${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-400"
+              }  p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl text-center text-white font-semibold text-lg`}
+              onClick={loading ? null : handleSaveBook}>
+              Save
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default EditBook;

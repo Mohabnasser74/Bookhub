@@ -13,7 +13,6 @@ authRouter.get("/check-auth", (req, res) => {
     res.json({
       code: 200,
       isAuthenticated: false,
-      username: req.session.username,
     });
   }
 });

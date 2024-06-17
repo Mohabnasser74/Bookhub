@@ -64,16 +64,7 @@ const addAndPublishBook = asyncWrapper(async (req, res, next) => {
   });
 });
 
-// frontend
-// baseUrl/username/bookId
-// allowed
-
-// baseUrl/username/bookId/edit
-// baseUrl/username/bookId/delete
-// Forbidden
-
 const getBook = asyncWrapper(async (req, res, next) => {
-  // get -> books/:id
   const username = req.params.username;
   const currentUser = req.session.username || req.cookies.dotcom_user;
   const isCurrentUser = currentUser === username;
@@ -86,16 +77,6 @@ const getBook = asyncWrapper(async (req, res, next) => {
       message: "Not Found",
     });
   }
-
-  console.log(req.params);
-
-  // if (!isCurrentUser) {
-  //   return next({
-  //     status: FAIL,
-  //     code: 403,
-  //     message: "Forbidden",
-  //   });
-  // }
 
   res.setHeader("Cache-Control", "public, max-age=3600, must-revalidate");
 
