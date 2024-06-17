@@ -1,10 +1,11 @@
 const express = require("express");
 const {
   getUser,
-  register,
+  signup,
   login,
   logout,
   getRepos,
+
 } = require("../controllers/users.controllers");
 const isAuth = require("../middleware/isAuth.js");
 
@@ -13,7 +14,7 @@ const upload = multer({ dest: "uploads/" });
 
 const usersRouter = express.Router();
 
-usersRouter.post("/register", upload.single("male-profile"), register);
+usersRouter.post("/signup", upload.single("male-profile"), signup);
 usersRouter.post("/login", login);
 usersRouter.get("/logout", isAuth, logout);
 usersRouter.get("/:username", getUser);

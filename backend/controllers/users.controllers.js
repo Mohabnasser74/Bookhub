@@ -33,7 +33,7 @@ const getUser = asyncWrapper(async (req, res, next) => {
   });
 });
 
-const register = asyncWrapper(async (req, res, next) => {
+const signup = asyncWrapper(async (req, res, next) => {
   const { username, email, password, role } = req.body;
 
   if (!username || !email || !password) {
@@ -272,7 +272,7 @@ const getRepos = asyncWrapper(async (req, res, next) => {
 
 module.exports = {
   getUser,
-  register,
+  signup,
   login,
   logout,
   getRepos,
