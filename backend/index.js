@@ -28,7 +28,7 @@ const store = new MongoDBSession({
 // Configure CORS
 app.use(
   cors({
-    origin: "http://localhost:5173", // Specify your frontend URL
+    origin: "https://booksub.netlify.app", // Specify your frontend URL
     credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
   })
 );
