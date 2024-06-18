@@ -84,10 +84,12 @@ const signup = asyncWrapper(async (req, res, next) => {
   res.cookie("logged_in", "true", {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
+    secure: true,
   });
   res.cookie("dotcom_user", `${username}`, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
+    secure: true,
   });
 
   req.session.isAuth = true;
@@ -147,10 +149,12 @@ const login = asyncWrapper(async (req, res, next) => {
   res.cookie("logged_in", "true", {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
+    secure: true,
   });
   res.cookie("dotcom_user", `${currentUser[0].username}`, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
+    secure: true,
   });
 
   req.session.isAuth = true;
@@ -194,7 +198,7 @@ const logout = asyncWrapper(async (req, res, next) => {
     res.clearCookie("connect.sid", {
       path: "/",
       httpOnly: true,
-      secure: false, // Set to true if using HTTPS
+      secure: true, // Set to true if using HTTPS
     });
 
     // Optionally clear any additional cookies
