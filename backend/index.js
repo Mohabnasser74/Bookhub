@@ -49,7 +49,7 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: false, // Set to true if using HTTPS
+      secure: true, // Set to true if using HTTPS
     },
   })
 );
