@@ -36,7 +36,7 @@ const Login = () => {
         return;
       } else setAuthLoading(false);
     })();
-  }, []);
+  }, [return_to]);
 
   const handleSubmit = async () => {
     try {
@@ -47,11 +47,11 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include", // Include cookies in the request
           body: JSON.stringify({
             email,
             password,
           }),
-          credentials: "include", // Include cookies in the request
         })
       ).json();
       if (

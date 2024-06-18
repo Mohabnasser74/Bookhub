@@ -14,7 +14,7 @@ const SignUp = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     try {
       setLoading(true);
       const data = await (
@@ -23,12 +23,12 @@ const SignUp = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({
             username,
             email,
             password,
           }),
-          credentials: "include",
         })
       ).json();
 
@@ -55,7 +55,6 @@ const SignUp = () => {
     }
   };
 
-  if (loading) return <Spinner />;
   return (
     <div className="p-4">
       <h1 className="text-3xl my-4">SignUp</h1>
