@@ -5,7 +5,6 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 
-
 export const api = "https://bookhub-ik4s.onrender.com";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
