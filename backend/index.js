@@ -34,7 +34,7 @@ app.use(
 );
 
 // Trust proxy setting for secure cookies if behind a proxy
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 // Apply middleware
 app.use(cookieParser("secret key to my session"));
@@ -42,13 +42,13 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: "secret key to my session",
+    secret: `${process.env.SESSION_SECRET}`,
     resave: false,
     saveUninitialized: false,
     store: store,
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 36000,
       secure: true, // Set to true if using HTTPS
     },
   })

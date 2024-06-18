@@ -82,12 +82,12 @@ const signup = asyncWrapper(async (req, res, next) => {
   await newProfile.save();
 
   res.cookie("logged_in", "true", {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    maxAge: 36000,
     httpOnly: true,
     secure: true,
   });
   res.cookie("dotcom_user", `${username}`, {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    maxAge: 36000,
     httpOnly: true,
     secure: true,
   });
