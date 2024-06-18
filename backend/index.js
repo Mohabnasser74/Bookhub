@@ -39,10 +39,11 @@ app.use(
 // Apply middleware
 app.use(cookieParser("secret key to my session"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: `${process.env.SESSION_SECRET}`,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: store,
