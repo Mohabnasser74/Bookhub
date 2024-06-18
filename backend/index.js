@@ -34,7 +34,7 @@ app.use(
 );
 
 // Trust proxy setting for secure cookies if behind a proxy
-// app.set("trust proxy", 1);
+app.set("trust proxy", 1);
 
 // Apply middleware
 app.use(cookieParser("secret key to my session"));
