@@ -29,39 +29,37 @@ const store = new MongoDBSession({
 // Configure CORS
 app.use(
   cors({
-    origin: "https://booksub.netlify.app", // Specify your frontend URL
+    origin: "https://booksub.netlify.app",
     credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
   })
 );
 
-// Trust proxy setting for secure cookies if behind a proxy
-app.set("trust proxy", 1);
-
 // Apply middleware
-app.use(cookieParser("secret key to my session"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "MY_SESSION_SECRET_HAHAHA",
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-      path: "/",
-    },
-  })
-);
+const sess = {
+  secret: process.env.SESSION_SECRET || "MY_SESSION_SECRET_HAHAHA",
+  resave: false,
+  saveUninitialized: false,
+  store: store,
+  cookie: {},
+};
+
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1);
+  sess.cookie.secure = true;
+  sess.cookie.httpOnly = true;
+  sess.cookie.sameSite = "None";
+  sess.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
+  sess.cookie.path = "/";
+}
+
+app.use(session(sess));
 
 app.get("/", isAuth, (req, res) => {
   res.json({
-    status: "success",
-    code: 200,
     data: null,
     message: "API",
   });
@@ -69,7 +67,22 @@ app.get("/", isAuth, (req, res) => {
 
 app.use("/books", booksRouter);
 app.use("/users", usersRouter);
-app.use("/auth", authRouter);
+// app.use("/auth", authRouter);
+
+app.get("/check-auth", (req, res) => {
+  if (req.session.isAuth) {
+    return res.json({
+      code: 200,
+      isAuthenticated: true,
+      username: req.session.username,
+    });
+  } else {
+    return res.json({
+      code: 401,
+      isAuthenticated: false,
+    });
+  }
+});
 
 // Global error handler
 app.use((error, req, res, next) => {

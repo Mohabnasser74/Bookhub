@@ -53,7 +53,6 @@ const CreateBooks = () => {
 
   return (
     <div className="p-4">
-      {loading && <Spinner />}
       <h1 className="text-3xl my-4">Create Book</h1>
       <div className="my-4 mx-auto border-sky-400 border-solid border rounded-xl w-fit p-4">
         <div className="my-4 flex flex-col w-96">
@@ -74,6 +73,7 @@ const CreateBooks = () => {
             onClick={loading ? null : handleCreateBook}>
             Publish
           </button>
+          {loading && <Spinner />}
         </div>
       </div>
     </div>
