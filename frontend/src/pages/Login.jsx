@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../main";
 import Spinner from "../components/Spinner";
 import { useLocation } from "react-router-dom";
+import { useUser } from "../components/UserProvider";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,28 +15,18 @@ const Login = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const { user } = useUser();
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const return_to = queryParams.get("return_to");
 
   useEffect(() => {
-    (async () => {
-      setAuthLoading(true);
-      const authData = await (
-        await fetch(`${api}/auth/check-auth`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        })
-      ).json();
-      if (authData.isAuthenticated) {
-        setAuthLoading(false);
-        return_to ? navigate(`${return_to}`) : navigate("/");
-        return;
-      } else setAuthLoading(false);
-    })();
+    if (user.isAuthenticated) {
+      setAuthLoading(false);
+      return_to ? navigate(`${return_to}`) : navigate("/");
+      return;
+    }
   }, [return_to]);
 
   const handleSubmit = async () => {

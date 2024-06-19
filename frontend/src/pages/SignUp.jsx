@@ -9,10 +9,24 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
+  const [authLoading, setAuthLoading] = useState(true);
 
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+
+  const { user } = useUser();
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const return_to = queryParams.get("return_to");
+
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      setAuthLoading(false);
+      return_to ? navigate(`${return_to}`) : navigate("/");
+      return;
+    }
+  }, [return_to]);
 
   const handleSubmit = async () => {
     try {
@@ -54,6 +68,8 @@ const SignUp = () => {
       console.log(err);
     }
   };
+
+  if (authLoading) return <Spinner />;
 
   return (
     <div className="p-4">

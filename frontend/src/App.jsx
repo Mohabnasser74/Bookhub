@@ -12,68 +12,24 @@ const EditBook = lazy(() => import("./pages/EditBook"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
+
 function App() {
   return (
     <Suspense fallback={<Spinner />}>
-      <Routes>
-        <Route
-          element={
-            <UserProvider>
-              <AppHeader />
-            </UserProvider>
-          }>
-          <Route
-            path="/"
-            element={
-              <UserProvider>
-                <Home />
-              </UserProvider>
-            }
-          />
-          <Route
-            path="/:username/:id"
-            element={
-              <UserProvider>
-                <ShowBook />
-              </UserProvider>
-            }
-          />
-          <Route
-            path="/:username/:id/edit"
-            element={
-              <UserProvider>
-                <EditBook />
-              </UserProvider>
-            }
-          />
-          <Route
-            path="/:username/:id/delete"
-            element={
-              <UserProvider>
-                <DeleteBooks />
-              </UserProvider>
-            }
-          />
-          <Route
-            path="/new"
-            element={
-              <UserProvider>
-                <CreateBooks />
-              </UserProvider>
-            }
-          />
-        </Route>
-        <Route
-          path="/:username"
-          element={
-            <UserProvider>
-              <Profile />
-            </UserProvider>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
+      <UserProvider>
+        <Routes>
+          <Route element={<AppHeader />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/:username/:id" element={<ShowBook />} />
+            <Route path="/:username/:id/edit" element={<EditBook />} />
+            <Route path="/:username/:id/delete" element={<DeleteBooks />} />
+            <Route path="/new" element={<CreateBooks />} />
+          </Route>
+          <Route path="/:username" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </UserProvider>
     </Suspense>
   );
 }

@@ -54,11 +54,9 @@ const Profile = () => {
     tab === "repositories" && setTarget("repositories");
   }, [tab]);
 
-  console.log(loading);
-
   if (loading) return <Spinner />;
 
-  if (user || user.user) {
+  if (user.user) {
     return (
       <>
         <AppHeader>
