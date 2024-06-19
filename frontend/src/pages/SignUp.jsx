@@ -1,8 +1,9 @@
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../main";
 import Spinner from "../components/Spinner";
+import { useUser } from "../components/UserProvider";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
