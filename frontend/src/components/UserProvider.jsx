@@ -8,7 +8,7 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const getUser = async () => {
+    (async () => {
       try {
         const authData = await (
           await fetch(`${api}/auth/check-auth`, {
@@ -47,10 +47,9 @@ const UserProvider = ({ children }) => {
           }
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
-    };
-    getUser();
+    })();
   }, []);
 
   return (

@@ -52,6 +52,7 @@ app.use(
       maxAge: 36000,
       secure: true, // Set to true if using HTTPS
       path: "/",
+      domain: "booksub.netlify.app",
       sameSite: true,
     },
   })
