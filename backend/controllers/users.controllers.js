@@ -22,7 +22,7 @@ const getUser = asyncWrapper(async (req, res, next) => {
     });
   }
 
-  res.setHeader("Cache-Control", "public, max-age=3600, must-revalidate");
+  // res.setHeader("Cache-Control", "public, max-age=3600, must-revalidate");
 
   res.status(200).json({
     status: SUCCESS,
