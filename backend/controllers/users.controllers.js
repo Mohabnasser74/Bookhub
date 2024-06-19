@@ -82,24 +82,28 @@ const signup = asyncWrapper(async (req, res, next) => {
   await newProfile.save();
 
   res.cookie("logged_in", "true", {
-    maxAge: 36000,
+    maxAge: 3600,
     httpOnly: true,
     secure: true,
+    path: "/",
   });
-  res.cookie("dotcom_user", `${username}`, {
-    maxAge: 36000,
+  res.cookie("dotcom_user", username, {
+    maxAge: 3600,
     httpOnly: true,
     secure: true,
+    path: "/",
   });
 
-  req.session.isAuth = true;
-  req.session.username = username;
-
-  req.session.save((err) => {
-    if (err) {
-      return next(err);
-    }
-  });
+  if (req.session) {
+    req.session.isAuth = true;
+    req.session.username = username;
+  } else {
+    return next({
+      status: FAIL,
+      code: 404,
+      message: "session is not created",
+    });
+  }
 
   res.status(201).json({
     status: "success",
@@ -159,11 +163,6 @@ const login = asyncWrapper(async (req, res, next) => {
 
   req.session.isAuth = true;
   req.session.username = currentUser[0].username;
-  req.session.save((err) => {
-    if (err) {
-      return next(err);
-    }
-  });
 
   await Profile.findOneAndUpdate(
     {
