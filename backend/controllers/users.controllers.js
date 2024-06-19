@@ -82,16 +82,16 @@ const signup = asyncWrapper(async (req, res, next) => {
   await newProfile.save();
 
   res.cookie("logged_in", "true", {
-    maxAge: 3600,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    path: "/",
+    sameSite: "None",
   });
   res.cookie("dotcom_user", username, {
-    maxAge: 3600,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    path: "/",
+    sameSite: "None",
   });
 
   if (req.session) {
@@ -197,15 +197,18 @@ const logout = asyncWrapper(async (req, res) => {
 
     // Clear cookies
     res.clearCookie("connect.sid", {
-      path: "/",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
-      secure: true, // Set to true if using HTTPS
+      secure: true,
+      sameSite: "None",
     });
 
     // Optionally clear any additional cookies
     res.cookie("logged_in", "false", {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
+      secure: true,
+      sameSite: "None",
     });
 
     res.clearCookie("dotcom_user", { path: "/" });
