@@ -154,14 +154,13 @@ const login = asyncWrapper(async (req, res, next) => {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    path: "/",
-
+    sameSite: "None",
   });
   res.cookie("dotcom_user", `${currentUser[0].username}`, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    path: "/",
+    sameSite: "None",
   });
 
   req.session.isAuth = true;
