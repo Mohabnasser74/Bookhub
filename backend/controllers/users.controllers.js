@@ -183,7 +183,7 @@ const login = asyncWrapper(async (req, res, next) => {
   });
 });
 
-const logout = asyncWrapper(async (req, res, next) => {
+const logout = asyncWrapper(async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error("Error destroying session:", err);
