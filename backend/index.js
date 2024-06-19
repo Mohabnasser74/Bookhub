@@ -49,10 +49,9 @@ app.use(
     store: store,
     cookie: {
       httpOnly: true,
-      maxAge: 36000,
+      maxAge: 3600,
       secure: true, // Set to true if using HTTPS
       path: "/",
-      domain: "booksub.netlify.app",
       sameSite: true,
     },
   })
