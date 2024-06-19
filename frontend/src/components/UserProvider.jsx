@@ -15,7 +15,7 @@ const UserProvider = ({ children }) => {
       try {
         setAuthLoading(true);
         const authData = await (
-          await fetch(`${api}/auth/check-auth`, {
+          await fetch(`${api}/check-auth`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
