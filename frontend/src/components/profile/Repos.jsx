@@ -73,6 +73,8 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
 
   if (isUserFound && loading) return <Spinner />;
 
+  console.log(repositories);
+
   return (
     <div>
       {isUserFound ? (
