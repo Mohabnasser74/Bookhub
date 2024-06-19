@@ -34,8 +34,6 @@ const UserProvider = ({ children }) => {
           return;
         }
 
-        
-
         if (
           authData.isAuthenticated &&
           (location.search === "login" || location.search === "sinup")
@@ -74,7 +72,7 @@ const UserProvider = ({ children }) => {
         console.error(error);
       }
     })();
-  }, []);
+  }, [location.search]);
 
   if (loading) return <Spinner />;
   return (
