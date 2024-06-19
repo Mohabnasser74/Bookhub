@@ -11,6 +11,7 @@ const booksRouter = require("./router/books.route.js");
 const usersRouter = require("./router/users.route.js");
 const authRouter = require("./router/check-auth.route.js");
 const { ERROR } = require("./models/books.model");
+const isAuth = require("./middleware/isAuth.js");
 
 const app = express();
 
@@ -50,14 +51,12 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: false,
+      sameSite: "Lax",
       maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
       path: "/",
     },
   })
 );
-
-const isAuth = require("./middleware/isAuth.js");
 
 app.get("/", isAuth, (req, res) => {
   res.json({
@@ -103,10 +102,7 @@ app.all("*", (req, res) => {
 
 // Connect to DB and start server
 async function main() {
-  await mongoose.connect(process.env.URI_CONNECTION, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(process.env.URI_CONNECTION);
   console.log("mongoose was started");
   app.listen(process.env.PORT, () => {
     console.log(`App is listening to port: ${process.env.PORT}`);
