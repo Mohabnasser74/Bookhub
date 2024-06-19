@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
+  // const [authLoading, setAuthLoading] = useState(true);
 
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user.isAuthenticated) {
-      setAuthLoading(false);
+      // setAuthLoading(false);
       return_to ? navigate(`${return_to}`) : navigate("/");
       return;
     }
@@ -83,7 +83,7 @@ const Login = () => {
     }
   };
 
-  if (authLoading) return <Spinner />;
+  // if (authLoading) return <Spinner />;
 
   return (
     <div className="p-4">
