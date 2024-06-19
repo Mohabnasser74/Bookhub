@@ -1,5 +1,5 @@
 import { useSnackbar } from "notistack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../main";
 import Spinner from "../components/Spinner";
