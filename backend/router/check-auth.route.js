@@ -4,14 +4,14 @@ const authRouter = express.Router();
 
 authRouter.get("/check-auth", (req, res) => {
   if (req.session.isAuth) {
-    res.json({
+    return res.json({
       code: 200,
       isAuthenticated: true,
       username: req.session.username,
     });
   } else {
-    res.json({
-      code: 200,
+    return res.json({
+      code: 401,
       isAuthenticated: false,
     });
   }

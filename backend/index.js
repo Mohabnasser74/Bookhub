@@ -51,6 +51,8 @@ app.use(
       httpOnly: true,
       maxAge: 36000,
       secure: true, // Set to true if using HTTPS
+      path: "/",
+      sameSite: true,
     },
   })
 );
