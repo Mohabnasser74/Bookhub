@@ -51,7 +51,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: "Lax",
+      sameSite: "None",
       maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
       path: "/",
     },

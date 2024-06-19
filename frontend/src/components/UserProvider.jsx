@@ -23,6 +23,8 @@ const UserProvider = ({ children }) => {
             credentials: "include",
           })
         ).json();
+
+        console.log(authData);
         if (!authData.isAuthenticated) {
           setUser({
             isAuthenticated: authData.isAuthenticated,
@@ -31,6 +33,8 @@ const UserProvider = ({ children }) => {
           setLoading(false);
           return;
         }
+
+        
 
         if (
           authData.isAuthenticated &&
