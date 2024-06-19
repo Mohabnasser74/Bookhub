@@ -7,13 +7,13 @@ const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
+        setAuthLoading(true);
         const authData = await (
           await fetch(`${api}/auth/check-auth`, {
             method: "GET",
@@ -30,7 +30,7 @@ const UserProvider = ({ children }) => {
             isAuthenticated: authData.isAuthenticated,
             user: {},
           });
-          setLoading(false);
+          setAuthLoading(false);
           return;
         }
 
@@ -55,28 +55,28 @@ const UserProvider = ({ children }) => {
           });
           const data = await response.json();
           if (data && data.code === 200) {
+            console.log(data);
             data.isAuthenticated = authData.isAuthenticated;
             setUser(data);
-            setLoading(false);
+            setAuthLoading(false);
             return;
           }
           if (data && data.code === 404) {
             data.isAuthenticated = authData.isAuthenticated;
             setUser(data);
-            setLoading(false);
+            setAuthLoading(false);
             return;
           }
         }
       } catch (error) {
-        setLoading(false);
+        setAuthLoading(false);
         console.error(error);
       }
     })();
   }, [location.search]);
 
-  if (loading) return <Spinner />;
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ authLoading, user, setUser }}>
       {children}
     </UserContext.Provider>
   );
