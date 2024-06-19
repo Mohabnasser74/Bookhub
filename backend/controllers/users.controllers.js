@@ -86,12 +86,14 @@ const signup = asyncWrapper(async (req, res, next) => {
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    domain: "netlify.app",
   });
   res.cookie("dotcom_user", username, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    domain: "netlify.app",
   });
 
   if (req.session) {
@@ -155,12 +157,14 @@ const login = asyncWrapper(async (req, res, next) => {
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    domain: "netlify.app",
   });
   res.cookie("dotcom_user", `${currentUser[0].username}`, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    domain: "netlify.app",
   });
 
   req.session.isAuth = true;
@@ -201,6 +205,7 @@ const logout = asyncWrapper(async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
+      domain: "netlify.app",
     });
 
     // Optionally clear any additional cookies
@@ -209,6 +214,7 @@ const logout = asyncWrapper(async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
+      domain: "netlify.app",
     });
 
     res.clearCookie("dotcom_user", { path: "/" });
