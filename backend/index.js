@@ -51,8 +51,8 @@ if (app.get("env") === "production") {
   app.set("trust proxy", 1);
   sess.cookie.secure = true;
   sess.cookie.httpOnly = true;
-  // sess.cookie.sameSite = "None";
-  // (sess.cookie.domian = "onrender.com"),
+  sess.cookie.sameSite = "None";
+  (sess.cookie.domian = "onrender.com"),
     (sess.cookie.maxAge = 1000 * 60 * 60 * 24 * 7);
   // sess.cookie.path = "/";
 }
