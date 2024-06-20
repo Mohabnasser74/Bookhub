@@ -15,6 +15,19 @@ const isAuth = require("./middleware/isAuth.js");
 
 const app = express();
 
+// Configure CORS
+const corsOptions = {
+  origin: "https://booksub.netlify.app",
+  credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
+};
+
+app.use(cors(corsOptions));
+
+// Apply middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 // Define the directory that contains the static files
 const staticDirectory = path.join(__dirname, "/uploads");
 
@@ -25,19 +38,6 @@ const store = new MongoDBSession({
   uri: process.env.URI_CONNECTION,
   collection: "sessions",
 });
-
-// Configure CORS
-app.use(
-  cors({
-    origin: "https://booksub.netlify.app",
-    credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
-  })
-);
-
-// Apply middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 const sess = {
   secret: process.env.SESSION_SECRET || "MY_SESSION_SECRET_HAHAHA",
@@ -52,9 +52,8 @@ if (app.get("env") === "production") {
   sess.cookie.secure = true;
   sess.cookie.httpOnly = true;
   sess.cookie.sameSite = "None";
-  sess.cookie.domain = "netlify.app";
-  sess.cookie.path = "/";
   sess.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
+  sess.cookie.path = "/";
 }
 
 app.use(session(sess));
