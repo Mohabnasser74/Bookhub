@@ -6,7 +6,7 @@ import { api } from "../../main";
 import { useSnackbar } from "notistack";
 import { useUser } from "../UserProvider";
 
-const Sidebar = ({ user, onClose }) => {
+const Sidebar = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
