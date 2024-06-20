@@ -17,7 +17,7 @@ const app = express();
 
 // Configure CORS
 const corsOptions = {
-  origin: "https://booksub.netlify.app",
+  origin: "https://booksub.onrender.com",
   credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
 };
 
