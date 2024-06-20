@@ -157,12 +157,14 @@ const login = asyncWrapper(async (req, res, next) => {
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    domian: "onrender.com",
   });
   res.cookie("dotcom_user", `${currentUser[0].username}`, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    domian: "onrender.com",
   });
 
   req.session.isAuth = true;
@@ -203,6 +205,7 @@ const logout = asyncWrapper(async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
+      domian: "onrender.com",
     });
 
     // Optionally clear any additional cookies
@@ -211,9 +214,16 @@ const logout = asyncWrapper(async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
+      domian: "onrender.com",
     });
 
-    res.clearCookie("dotcom_user", { path: "/" });
+    res.clearCookie("dotcom_user", {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      domian: "onrender.com",
+    });
 
     // Send response after session is destroyed and cookies are cleared
     res.json({
