@@ -208,8 +208,7 @@ const logout = asyncWrapper(async (req, res) => {
       domian: "onrender.com",
     });
 
-    // Optionally clear any additional cookies
-    res.cookie("logged_in", "false", {
+    res.clearCookie("dotcom_user", {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       secure: true,
@@ -217,7 +216,8 @@ const logout = asyncWrapper(async (req, res) => {
       domian: "onrender.com",
     });
 
-    res.clearCookie("dotcom_user", {
+    // Optionally clear any additional cookies
+    res.cookie("logged_in", "false", {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       secure: true,
