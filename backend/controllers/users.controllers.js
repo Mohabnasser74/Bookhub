@@ -86,14 +86,14 @@ const signup = asyncWrapper(async (req, res, next) => {
     httpOnly: true,
     secure: true,
     sameSite: "None",
-    path: "/",
+    domian: "onrender.com",
   });
   res.cookie("dotcom_user", username, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
     sameSite: "None",
-    path: "/",
+    domian: "onrender.com",
   });
 
   if (req.session) {
