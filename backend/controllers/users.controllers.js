@@ -85,15 +85,15 @@ const signup = asyncWrapper(async (req, res, next) => {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    sameSite: "None",
-    domian: "onrender.com",
+    // sameSite: "None",
+    // domian: "onrender.com",
   });
   res.cookie("dotcom_user", username, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    sameSite: "None",
-    domian: "onrender.com",
+    // sameSite: "None",
+    // domian: "onrender.com",
   });
 
   if (req.session) {
@@ -172,16 +172,16 @@ const login = asyncWrapper(async (req, res, next) => {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    sameSite: "None",
-    domian: "onrender.com",
+    // sameSite: "None",
+    // domian: "onrender.com",
   });
 
   res.cookie("dotcom_user", `${currentUser[0].username}`, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: true,
-    sameSite: "None",
-    domian: "onrender.com",
+    // sameSite: "None",
+    // domian: "onrender.com",
   });
 
   res.status(201).json({
@@ -207,16 +207,16 @@ const logout = asyncWrapper(async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       secure: true,
-      sameSite: "None",
-      domian: "onrender.com",
+      // sameSite: "None",
+      // domian: "onrender.com",
     });
 
     res.clearCookie("dotcom_user", {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       secure: true,
-      sameSite: "None",
-      domian: "onrender.com",
+      // sameSite: "None",
+      // domian: "onrender.com",
     });
 
     // Optionally clear any additional cookies
@@ -224,8 +224,8 @@ const logout = asyncWrapper(async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       secure: true,
-      sameSite: "None",
-      domian: "onrender.com",
+      // sameSite: "None",
+      // domian: "onrender.com",
     });
 
     // Send response after session is destroyed and cookies are cleared
