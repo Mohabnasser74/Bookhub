@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../main";
 import { useSnackbar } from "notistack";
+import { useUser } from "../UserProvider";
 
 const Sidebar = ({ user, onClose }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+
+  const { user, setUser } = useUser();
 
   const handleLogOut = async () => {
     try {
@@ -25,6 +28,10 @@ const Sidebar = ({ user, onClose }) => {
           variant: "success",
         });
         onClose();
+        setUser({
+          isAuthenticated: false,
+          user: {},
+        });
         navigate("/");
         return;
       }
