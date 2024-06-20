@@ -52,9 +52,8 @@ if (app.get("env") === "production") {
   sess.cookie.secure = true;
   sess.cookie.httpOnly = true;
   sess.cookie.sameSite = "None";
-  (sess.cookie.domian = "onrender.com"),
-    (sess.cookie.maxAge = 1000 * 60 * 60 * 24 * 7);
-  // sess.cookie.path = "/";
+  sess.cookie.path = "/";
+  sess.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
 }
 
 app.use(session(sess));
