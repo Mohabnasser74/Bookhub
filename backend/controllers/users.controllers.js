@@ -117,6 +117,7 @@ const signup = asyncWrapper(async (req, res, next) => {
 
 const login = asyncWrapper(async (req, res, next) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
     return next({
       status: FAIL,
@@ -152,20 +153,6 @@ const login = asyncWrapper(async (req, res, next) => {
       message: "Wrong email or password",
     });
   }
-  res.cookie("logged_in", "true", {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    domian: "onrender.com",
-  });
-  res.cookie("dotcom_user", `${currentUser[0].username}`, {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    domian: "onrender.com",
-  });
 
   req.session.isAuth = true;
   req.session.username = currentUser[0].username;
@@ -180,6 +167,22 @@ const login = asyncWrapper(async (req, res, next) => {
       },
     }
   );
+
+  res.cookie("logged_in", "true", {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    domian: "onrender.com",
+  });
+
+  res.cookie("dotcom_user", `${currentUser[0].username}`, {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    domian: "onrender.com",
+  });
 
   res.status(201).json({
     status: "success",

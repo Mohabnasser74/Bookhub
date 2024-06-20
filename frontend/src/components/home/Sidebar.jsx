@@ -25,7 +25,7 @@ const Sidebar = ({ user, onClose }) => {
           variant: "success",
         });
         onClose();
-        navigate("/login");
+        navigate("/");
         return;
       }
       if (data.code === 401) {
@@ -52,7 +52,11 @@ const Sidebar = ({ user, onClose }) => {
         className="fixed right-0 top-0 bg-zinc-900 min-h-screen w-[300px] max-w-full rounded-l-md text-white p-4">
         <div className="flex justify-between items-center pb-3 border-b-2 border-y-gray-600 border-solid ">
           <div className="flex items-center">
-            <img className="mr-2.5" src={`${user.user?.avatar_url}`} alt="user-image" />
+            <img
+              className="mr-2.5"
+              src={`${user.user?.avatar_url}`}
+              alt="user-image"
+            />
             <span>{user.user.login ? user.user.login : "User Name"}</span>
           </div>
           <AiOutlineClose
