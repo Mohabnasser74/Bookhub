@@ -56,10 +56,6 @@ const Login = () => {
         enqueueSnackbar("Login Successfully", {
           variant: "success",
         });
-        setUser({
-          isLogin: true,
-          user: {},
-        });
         return_to ? navigate(`${return_to}`) : navigate("/");
         return;
       }
