@@ -15,22 +15,22 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 
 function App() {
   return (
-    <Suspense fallback={<Spinner />}>
-      <UserProvider>
-        <Routes>
-          <Route element={<AppHeader />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/:username/:id" element={<ShowBook />} />
-            <Route path="/:username/:id/edit" element={<EditBook />} />
-            <Route path="/:username/:id/delete" element={<DeleteBooks />} />
-            <Route path="/new" element={<CreateBooks />} />
-          </Route>
-          <Route path="/:username" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
-      </UserProvider>
-    </Suspense>
+    // <Suspense fallback={<Spinner />}>
+    <UserProvider>
+      <Routes>
+        <Route element={<AppHeader />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/:username/:id" element={<ShowBook />} />
+          <Route path="/:username/:id/edit" element={<EditBook />} />
+          <Route path="/:username/:id/delete" element={<DeleteBooks />} />
+          <Route path="/new" element={<CreateBooks />} />
+        </Route>
+        <Route path="/:username" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
+    </UserProvider>
+    // </Suspense>
   );
 }
 
