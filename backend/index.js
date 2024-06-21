@@ -52,11 +52,6 @@ const sess = {
 if (app.get("env") === "production") {
   app.set("trust proxy", 1);
   sess.cookie.httpOnly = true;
-<<<<<<< HEAD
-  // sess.cookie.domain = ".onrender.com";
-=======
-  //sess.cookie.domain = ".onrender.com";
->>>>>>> 0d9fd930ff3af58da4c37738107f0b354f03005e
   sess.cookie.secure = true;
   sess.cookie.sameSite = "None";
   sess.cookie.path = "/";
@@ -73,7 +68,6 @@ app.get("/", isAuth, (_, res) => {
 
 app.use("/books", booksRouter);
 app.use("/users", usersRouter);
-// app.use("/auth", authRouter);
 
 app.get("/check-login", (req, res) => {
   if (req.session.userId) {
