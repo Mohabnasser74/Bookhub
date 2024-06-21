@@ -54,7 +54,7 @@ if (app.get("env") === "production") {
   sess.cookie.httpOnly = true;
   sess.cookie.domain = "onrender.com";
   sess.cookie.secure = true;
-  sess.cookie.sameSite = "Strict";
+  sess.cookie.sameSite = "Lax";
   sess.cookie.path = "/";
 }
 
