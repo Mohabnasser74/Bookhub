@@ -23,6 +23,7 @@ const Login = () => {
   useEffect(() => {
     if (user.isLogin) {
       return_to ? navigate(`${return_to}`) : navigate("/");
+      return;
     }
   }, [return_to]);
 
