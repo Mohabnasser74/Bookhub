@@ -44,7 +44,9 @@ const sess = {
   resave: false,
   saveUninitialized: false,
   store: store,
-  cookie: {},
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
 };
 
 if (app.get("env") === "production") {
@@ -53,13 +55,11 @@ if (app.get("env") === "production") {
   sess.cookie.httpOnly = true;
   sess.cookie.sameSite = "None";
   sess.cookie.path = "/";
-  sess.cookie.domain = "booksub.onrender.com";
-  sess.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
 }
 
 app.use(session(sess));
 
-app.get("/", isAuth, (req, res) => {
+app.get("/", isAuth, (_, res) => {
   res.json({
     data: null,
     message: "API",
