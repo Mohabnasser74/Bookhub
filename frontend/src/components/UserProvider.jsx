@@ -59,7 +59,7 @@ const UserProvider = ({ children }) => {
     };
 
     checkLoginStatus();
-  }, [return_to]);
+  }, [location.search]);
 
   return (
     <UserContext.Provider value={{ user, setUser, loading }}>
