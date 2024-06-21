@@ -53,6 +53,8 @@ const UserProvider = ({ children }) => {
     checkLoginStatus();
   }, []);
 
+  console.log("RE_RENDER")
+
   return (
     <UserContext.Provider value={{ user, setUser, loading }}>
       {children}
