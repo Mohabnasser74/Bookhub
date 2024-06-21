@@ -14,6 +14,10 @@ const Login = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const return_to = queryParams.get("return_to");
+
   const { user } = useUser();
 
   const handleSubmit = async () => {
