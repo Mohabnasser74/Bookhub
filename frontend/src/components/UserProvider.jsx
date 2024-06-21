@@ -1,11 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../main";
+import { useLocation } from "react-router-dom";
 
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const return_to = queryParams.get("return_to");
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -20,7 +25,10 @@ const UserProvider = ({ children }) => {
         const checkData = await checkResponse.json();
 
         console.log(checkData);
-
+        if (checkData.isLogin && location.search === ("login" || "sinup")) {
+          return_to ? navigate(`${return_to}`) : navigate("/");
+          return;
+        }
         if (!checkData.isLogin) {
           setUser({ isLogin: false, user: {} });
         } else {
@@ -51,7 +59,7 @@ const UserProvider = ({ children }) => {
     };
 
     checkLoginStatus();
-  }, [user?.isLogin]);
+  }, [return_to]);
 
   return (
     <UserContext.Provider value={{ user, setUser, loading }}>

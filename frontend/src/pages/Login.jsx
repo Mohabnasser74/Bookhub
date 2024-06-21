@@ -14,18 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { user, setUser } = useUser();
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const return_to = queryParams.get("return_to");
-
-  useEffect(() => {
-    if (user.isLogin) {
-      return_to ? navigate(`${return_to}`) : navigate("/");
-      return;
-    }
-  }, [return_to]);
+  const { user } = useUser();
 
   const handleSubmit = async () => {
     try {
