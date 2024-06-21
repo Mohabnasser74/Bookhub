@@ -9,9 +9,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    (async () => {
+    const getBooks = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const data = await (
           await fetch(`${api}/books`, {
             method: "GET",
@@ -23,14 +23,15 @@ export default function Home() {
         if (data.code === 200) {
           setBooks(data.data.books);
         }
-        setLoading(false);
       } catch (error) {
         console.error(error);
+      } finally {
         setLoading(false);
       }
-    })();
+    };
+
+    getBooks();
   }, []);
 
-  if (loading) return <Spinner />;
   return <HomeModel books={books} loading={loading} />;
 }

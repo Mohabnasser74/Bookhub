@@ -38,20 +38,20 @@ const BookSingleCard = ({ book }) => {
           <AiOutlineEye
             className="text-3xl text-blue-800 hover:text-black cursor-pointer"
             onClick={() => {
-              if (user.isAuthenticated) {
+              if (user.isLogin) {
                 setShowModal(true);
               } else navigate("/login");
             }}
           />
           <Link
             to={
-              user.isAuthenticated
+              user.isLogin
                 ? `/${book.author}/${book._id}`
                 : `/login?return_to=/${book.author}/${book._id}`
             }>
             <BsInfoCircle className="text-2xl text-green-800" />
           </Link>
-          {showModal && user.isAuthenticated && (
+          {showModal && user.isLogin && (
             <BookModal book={book} onClose={() => setShowModal(false)} />
           )}
         </div>

@@ -11,43 +11,45 @@ const CreateBooks = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleCreateBook = async () => {
+    if (!title.trim()) {
+      enqueueSnackbar("Title cannot be empty", { variant: "warning" });
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      setLoading(true);
-      const data = await (
-        await fetch(`${api}/books`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            title: title,
-          }),
-        })
-      ).json();
+      const response = await fetch(`${api}/books`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ title }),
+      });
+
+      const data = await response.json();
 
       if (data.code === 401) {
-        setLoading(false);
         navigate("/login");
         return;
       }
 
       if (data.code === 201) {
-        setLoading(false);
         enqueueSnackbar(data.message, { variant: "success" });
-        navigate(`/`);
+        navigate("/");
         return;
       }
 
       if (data.code === 400) {
-        setLoading(false);
-        enqueueSnackbar(data.message, {
-          variant: "error",
-        });
+        enqueueSnackbar(data.message, { variant: "error" });
+      } else {
+        enqueueSnackbar("An unexpected error occurred", { variant: "error" });
       }
     } catch (err) {
+      enqueueSnackbar("Failed to create book", { variant: "error" });
+    } finally {
       setLoading(false);
-      enqueueSnackbar(data.message, { variant: "error" });
     }
   };
 
@@ -63,6 +65,7 @@ const CreateBooks = () => {
             placeholder="Title"
             className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
             onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
           <button
             className={`${
@@ -70,7 +73,8 @@ const CreateBooks = () => {
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-green-500 hover:bg-green-400"
             } p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl text-center text-white font-semibold text-lg`}
-            onClick={loading ? null : handleCreateBook}>
+            onClick={handleCreateBook}
+            disabled={loading}>
             Publish
           </button>
           {loading && <Spinner />}

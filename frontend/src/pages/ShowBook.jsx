@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
 import { api } from "../main";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useSnackbar } from "notistack";
@@ -17,9 +16,9 @@ const ShowBook = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    (async () => {
+    const getBookById = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const data = await (
           await fetch(`${api}/books/${username}/${id}`, {
             method: "GET",
@@ -27,27 +26,25 @@ const ShowBook = () => {
           })
         ).json();
         if (data.code === 404 || data.message === "Not Found") {
-          setLoading(false);
           enqueueSnackbar(data.message, { variant: "error" });
           navigate(-1);
           return;
         }
         if (data.code === 401) {
-          setLoading(false);
           navigate("/login");
           return;
         }
         setIsCurrentUser(data.isCurrentUser);
         setBook(data.data.book);
-        setLoading(false);
       } catch (error) {
         console.error(error);
+      } finally {
         setLoading(false);
       }
-    })();
-  }, []);
 
-  if (loading) return <Spinner />;
+      getBookById();
+    };
+  }, []);
 
   return (
     <div className="p-4">

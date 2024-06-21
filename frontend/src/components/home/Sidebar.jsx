@@ -14,8 +14,8 @@ const Sidebar = ({ onClose }) => {
   const { user, setUser } = useUser();
 
   const handleLogOut = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const data = await (
         await fetch(`${api}/users/logout`, {
           method: "GET",
@@ -23,13 +23,12 @@ const Sidebar = ({ onClose }) => {
         })
       ).json();
       if (data.code === 200 || data.message === "logOut") {
-        setLoading(false);
         enqueueSnackbar("Log Out Successfully", {
           variant: "success",
         });
         onClose();
         setUser({
-          isAuthenticated: false,
+          isLogin: false,
           user: {},
         });
         navigate("/");
@@ -40,13 +39,13 @@ const Sidebar = ({ onClose }) => {
         return;
       }
       if (data.code === 500) {
-        setLoading(false);
         enqueueSnackbar(data.message, { variant: "error" });
         return;
       }
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
+    } finally {
       setLoading(false);
-      enqueueSnackbar(err.message, { variant: "error" });
     }
   };
 
@@ -64,7 +63,7 @@ const Sidebar = ({ onClose }) => {
               src={`${user.user?.avatar_url}`}
               alt="user-image"
             />
-            <span>{user.user.login ? user.user.login : "User Name"}</span>
+            <span>{user.user.login ? user.user.login : "Username"}</span>
           </div>
           <AiOutlineClose
             onClick={onClose}

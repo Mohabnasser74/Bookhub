@@ -153,6 +153,7 @@ const login = asyncWrapper(async (req, res, next) => {
   }
 
   req.session.isAuth = true;
+  req.session.userId = currentUser[0]._id;
   req.session.username = currentUser[0].username;
 
   await Profile.findOneAndUpdate(

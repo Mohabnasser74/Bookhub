@@ -18,14 +18,12 @@ const HomeModel = ({ books, loading }) => {
     }
   }, [sBStorge]);
 
-  if (loading) return <Spinner />;
-
   return (
     <div className="p-4">
       {sBStorge === "table" ? (
-        <BooksTable books={books} />
+        <BooksTable books={books} loading={loading} />
       ) : (
-        <BooksCard books={books} />
+        <BooksCard books={books} loading={loading} />
       )}
     </div>
   );

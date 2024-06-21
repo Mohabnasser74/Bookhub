@@ -10,7 +10,6 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  // const [authLoading, setAuthLoading] = useState(true);
 
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -22,10 +21,8 @@ const SignUp = () => {
   const return_to = queryParams.get("return_to");
 
   useEffect(() => {
-    if (user.isAuthenticated) {
-      // setAuthLoading(false);
+    if (user.isLogin) {
       return_to ? navigate(`${return_to}`) : navigate("/");
-      return;
     }
   }, [return_to]);
 
@@ -63,14 +60,11 @@ const SignUp = () => {
         });
         return;
       }
-    } catch (err) {
+    } catch (error) {
       setLoading(false);
-      enqueueSnackbar(err.message, { variant: "error" });
-      console.log(err);
+      console.error(error);
     }
   };
-
-  // if (authLoading) return <Spinner />;
 
   return (
     <div className="p-4">

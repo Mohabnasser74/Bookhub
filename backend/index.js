@@ -52,7 +52,7 @@ const sess = {
 if (app.get("env") === "production") {
   app.set("trust proxy", 1);
   sess.cookie.httpOnly = true;
-  sess.cookie.domain = ".onrender.com";
+  // sess.cookie.domain = ".onrender.com";
   sess.cookie.secure = true;
   sess.cookie.sameSite = "None";
   sess.cookie.path = "/";
@@ -71,17 +71,17 @@ app.use("/books", booksRouter);
 app.use("/users", usersRouter);
 // app.use("/auth", authRouter);
 
-app.get("/check-auth", (req, res) => {
-  if (req.session.isAuth) {
+app.get("/check-login", (req, res) => {
+  if (req.session.userId) {
     return res.json({
       code: 200,
-      isAuthenticated: true,
+      isLogin: true,
       username: req.session.username,
     });
   } else {
     return res.json({
-      code: 401,
-      isAuthenticated: false,
+      code: 200,
+      isLogin: false,
     });
   }
 });

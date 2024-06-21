@@ -10,7 +10,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  // const [authLoading, setAuthLoading] = useState(true);
 
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -22,10 +21,8 @@ const Login = () => {
   const return_to = queryParams.get("return_to");
 
   useEffect(() => {
-    if (user.isAuthenticated) {
-      // setAuthLoading(false);
+    if (user.isLogin) {
       return_to ? navigate(`${return_to}`) : navigate("/");
-      return;
     }
   }, [return_to]);
 
@@ -38,7 +35,7 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // Include cookies in the request
+          credentials: "include",
           body: JSON.stringify({
             email,
             password,
@@ -83,7 +80,7 @@ const Login = () => {
     }
   };
 
-  // if (authLoading) return <Spinner />;
+  if (user.isLogin) return null;
 
   return (
     <div className="p-4">

@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Spinner from "./components/Spinner";
-import AppHeader from "./components/home/AppHeader";
+import AppHeader from "./components/AppHeader";
 import UserProvider from "./components/UserProvider";
 
 const Home = lazy(() => import("./pages/Home"));
