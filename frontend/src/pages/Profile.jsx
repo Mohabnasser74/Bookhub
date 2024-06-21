@@ -64,7 +64,7 @@ const Profile = () => {
   return (
     <>
       <AppHeader>
-        {isUserFound && (
+        {isUserFound && !loading && (
           <div className="p-2">
             <nav>
               <ul className="flex gap-4">

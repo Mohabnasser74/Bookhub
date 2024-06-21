@@ -19,6 +19,8 @@ const UserProvider = ({ children }) => {
         });
         const checkData = await checkResponse.json();
 
+        console.log(checkData)
+
         if (!checkData.isLogin) {
           setUser({ isLogin: false, user: {} });
         } else {
