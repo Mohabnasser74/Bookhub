@@ -44,7 +44,7 @@ const ShowBook = () => {
 
       getBookById();
     };
-  }, []);
+  }, [username, id]);
 
   return (
     <div className="p-4">
