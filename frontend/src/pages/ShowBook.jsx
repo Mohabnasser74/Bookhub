@@ -46,6 +46,8 @@ const ShowBook = () => {
     };
   }, [username, id]);
 
+  console.log(book)
+
   return (
     <div className="p-4">
       <h1 className="text-3xl my-4">Show Book</h1>

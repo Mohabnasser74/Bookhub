@@ -20,6 +20,12 @@ const Login = () => {
 
   const { user } = useUser();
 
+  useEffect(() => {
+    if (user.isLogin) {
+      return_to ? navigate(`${return_to}`) : navigate("/");
+    }
+  }, [return_to]);
+
   const handleSubmit = async () => {
     try {
       setLoading(true);
