@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -23,6 +23,7 @@ const Login = () => {
   useEffect(() => {
     if (user.isLogin) {
       return_to ? navigate(`${return_to}`) : navigate("/");
+      return;
     }
   }, [return_to]);
 
@@ -54,6 +55,10 @@ const Login = () => {
         setLoading(false);
         enqueueSnackbar("Login Successfully", {
           variant: "success",
+        });
+        setUser({
+          isLogin: true,
+          user: {},
         });
         return_to ? navigate(`${return_to}`) : navigate("/");
         return;

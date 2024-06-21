@@ -19,7 +19,7 @@ const UserProvider = ({ children }) => {
         });
         const checkData = await checkResponse.json();
 
-        console.log(checkData)
+        console.log(checkData);
 
         if (!checkData.isLogin) {
           setUser({ isLogin: false, user: {} });
@@ -51,9 +51,7 @@ const UserProvider = ({ children }) => {
     };
 
     checkLoginStatus();
-  }, []);
-
-  console.log("RE_RENDER")
+  }, [user?.isLogin]);
 
   return (
     <UserContext.Provider value={{ user, setUser, loading }}>
