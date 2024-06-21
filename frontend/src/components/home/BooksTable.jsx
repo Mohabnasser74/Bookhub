@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { BsInfoCircle } from "react-icons/bs";
 import { useUser } from "../UserProvider";
-import Spinner from "../Spinner";
 
 const BooksTable = ({ books }) => {
   const { user } = useUser();
@@ -29,7 +28,6 @@ const BooksTable = ({ books }) => {
           </tr>
         </thead>
         <tbody>
-          {loading && <Spinner />}
           {books.map((book, index) => (
             <tr key={book._id}>
               <td className="border-y-gray-600 border-solid border rounded-md text-center">

@@ -3,7 +3,7 @@ import BooksTable from "./BooksTable";
 import BooksCard from "./BooksCard";
 import Spinner from "../Spinner";
 
-const HomeModel = ({ books, loading }) => {
+const HomeModel = ({ books }) => {
   const [sBStorge, setSBStorge] = useState(
     localStorage.getItem("switch_button")
   );
@@ -21,9 +21,9 @@ const HomeModel = ({ books, loading }) => {
   return (
     <div className="p-4">
       {sBStorge === "table" ? (
-        <BooksTable books={books} loading={loading} />
+        <BooksTable books={books} />
       ) : (
-        <BooksCard books={books} loading={loading} />
+        <BooksCard books={books} />
       )}
     </div>
   );

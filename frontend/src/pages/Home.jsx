@@ -33,5 +33,6 @@ export default function Home() {
     getBooks();
   }, []);
 
-  return <HomeModel books={books} loading={loading} />;
+  if (loading) return <Spinner />;
+  return <HomeModel books={books} />;
 }
