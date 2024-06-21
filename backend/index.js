@@ -52,7 +52,7 @@ const sess = {
 if (app.get("env") === "production") {
   app.set("trust proxy", 1);
   sess.cookie.httpOnly = true;
-  sess.cookie.domain = "onrender.com";
+  sess.cookie.domain = ".onrender.com";
   sess.cookie.secure = true;
   sess.cookie.sameSite = "None";
   sess.cookie.path = "/";
