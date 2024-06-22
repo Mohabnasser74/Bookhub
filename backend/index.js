@@ -16,6 +16,7 @@ const app = express();
 
 // Configure CORS
 const corsOptions = {
+  // http://localhost:5173
   origin: "https://booksub.onrender.com",
   credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
 };

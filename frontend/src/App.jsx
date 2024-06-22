@@ -15,7 +15,7 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 
 function App() {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<h1>LOADING...</h1>}>
       <UserProvider>
         <Routes>
           <Route path="/" element={<AppHeader />}>
