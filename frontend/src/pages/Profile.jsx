@@ -93,7 +93,7 @@ const Profile = () => {
       </AppHeader>
       {loading && <Spinner />}
       {target === "overveiw" && <Overveiw isUserFound={isUserFound} />}
-      {target === "repositories" && isUserFound && (
+      {target === "repositories" && (
         <Repos
           user={user}
           isUserFound={isUserFound}

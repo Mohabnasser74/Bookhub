@@ -50,7 +50,7 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center border border-y-gray-600 border-solid">
+      <div className="border border-y-gray-600 border-solid w-fit p-1.5 m-auto">
         <button
           className={`mx-1.5 text-1xl font-bold rounded p-1 ${
             sBStorge === "table" ? "bg-orange-500 hover:bg-orange-400" : null
