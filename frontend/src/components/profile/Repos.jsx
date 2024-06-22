@@ -68,7 +68,7 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
 
   return (
     <div>
-      {isUserFound && !loading ? (
+      {isUserFound ? (
         repositories.length <= 0 ? (
           <div className="text-3xl font-bold text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             {user.user?.login === username ? (
