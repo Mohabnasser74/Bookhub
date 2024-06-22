@@ -25,7 +25,8 @@ const UserProvider = ({ children }) => {
         const checkData = await checkResponse.json();
 
         console.log(checkData);
-        if (checkData.isLogin && location.search === ("login" || "sinup")) {
+        if (checkData.isLogin && location.search === ("login" || "signup")) {
+          console.log(return_to)
           return_to ? navigate(`${return_to}`) : navigate("/");
           return;
         }
