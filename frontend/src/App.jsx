@@ -23,9 +23,9 @@ function App() {
             <Route path="/:username/:id" element={<ShowBook />} />
             <Route path="/:username/:id/edit" element={<EditBook />} />
             <Route path="/:username/:id/delete" element={<DeleteBooks />} />
-            <Route path="/new" element={<CreateBooks />} />
           </Route>
           <Route path="/:username" element={<Profile />} />
+          <Route path="/new" element={<CreateBooks />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

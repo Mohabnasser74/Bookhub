@@ -9,7 +9,6 @@ require("dotenv").config();
 
 const booksRouter = require("./router/books.route.js");
 const usersRouter = require("./router/users.route.js");
-const authRouter = require("./router/check-auth.route.js");
 const { ERROR } = require("./models/books.model");
 const isAuth = require("./middleware/isAuth.js");
 

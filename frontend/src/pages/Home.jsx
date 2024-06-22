@@ -18,6 +18,7 @@ export default function Home() {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
           })
         ).json();
         if (data.code === 200) {
