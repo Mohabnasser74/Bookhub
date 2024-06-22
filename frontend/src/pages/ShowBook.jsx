@@ -27,7 +27,7 @@ const ShowBook = () => {
         ).json();
         if (data.code === 404 || data.message === "Not Found") {
           enqueueSnackbar(data.message, { variant: "error" });
-          navigate('/');
+          navigate("/");
           return;
         }
         if (data.code === 401) {
@@ -41,12 +41,12 @@ const ShowBook = () => {
       } finally {
         setLoading(false);
       }
-
-      getBookById();
     };
+
+    getBookById();
   }, [username, id]);
 
-  console.log(book)
+  console.log(book);
 
   return (
     <div className="p-4">

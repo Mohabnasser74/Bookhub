@@ -59,12 +59,10 @@ const Profile = () => {
     }
   }, [tab]);
 
-  if (loading) return <Spinner />;
-
   return (
     <>
       <AppHeader>
-        {isUserFound && !loading && (
+        {isUserFound && (
           <div className="p-2">
             <nav>
               <ul className="flex gap-4">
@@ -93,6 +91,7 @@ const Profile = () => {
           </div>
         )}
       </AppHeader>
+      {loading && <Spinner />}
       {target === "overveiw" && <Overveiw isUserFound={isUserFound} />}
       {target === "repositories" && isUserFound && (
         <Repos
