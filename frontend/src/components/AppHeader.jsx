@@ -7,7 +7,7 @@ import { useUser } from "./UserProvider";
 const AppHeader = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(false);
   const { username } = useParams();
-  const { user } = useUser();
+  const { user, checkLoading } = useUser();
   const location = useLocation();
   const { pathname, search } = location;
 
@@ -45,13 +45,29 @@ const AppHeader = ({ children }) => {
             ) : (
               <>
                 <Link
-                  to={`/login?return_to=${pathname}${search}`}
-                  className="m-1.5 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  to={
+                    checkLoading
+                      ? null
+                      : `/login?return_to=${pathname}${search}`
+                  }
+                  className={`${
+                    checkLoading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-500 hover:bg-blue-400"
+                  } m-1.5 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}>
                   Log In
                 </Link>
                 <Link
-                  to={`/signup?return_to=${pathname}${search}`}
-                  className="m-1.5 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  to={
+                    checkLoading
+                      ? null
+                      : `/signup?return_to=${pathname}${search}`
+                  }
+                  className={`${
+                    checkLoading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-500 hover:bg-blue-400"
+                  } m-1.5 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}>
                   Sign Up
                 </Link>
               </>

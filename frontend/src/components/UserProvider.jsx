@@ -6,7 +6,7 @@ const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [checkLoading, setCheckLoading] = useState(true);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -14,6 +14,7 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const checkLoginStatus = async () => {
+      setCheckLoading(true);
       try {
         const checkResponse = await fetch(`${api}/check-login`, {
           method: "GET",
@@ -26,7 +27,7 @@ const UserProvider = ({ children }) => {
 
         console.log(checkData);
         if (checkData.isLogin && location.search === ("login" || "signup")) {
-          console.log(return_to)
+          console.log(return_to);
           return_to ? navigate(`${return_to}`) : navigate("/");
           return;
         }
@@ -55,7 +56,7 @@ const UserProvider = ({ children }) => {
         console.error("Failed to check login status:", error);
         setUser({ isLogin: false, user: {} });
       } finally {
-        setLoading(false);
+        setCheckLoading(false);
       }
     };
 
@@ -63,7 +64,7 @@ const UserProvider = ({ children }) => {
   }, [location.search]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, loading }}>
+    <UserContext.Provider value={{ user, setUser, checkLoading }}>
       {children}
     </UserContext.Provider>
   );

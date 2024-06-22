@@ -27,7 +27,7 @@ const ShowBook = () => {
         ).json();
         if (data.code === 404 || data.message === "Not Found") {
           enqueueSnackbar(data.message, { variant: "error" });
-          navigate(-1);
+          navigate('/');
           return;
         }
         if (data.code === 401) {
