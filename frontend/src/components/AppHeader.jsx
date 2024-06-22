@@ -23,6 +23,7 @@ const AppHeader = ({ children }) => {
               <span className="text-white py-2 ml-2">
                 <Link to={`/${user.user.login}`}>{user.user.login}</Link>
               </span>
+              // {"book-title"}
             )}
           </div>
           <div className="flex items-center gap-2">
@@ -33,7 +34,7 @@ const AppHeader = ({ children }) => {
                 </button>
               </Link>
             )}
-            {user.isLogin ? (
+            {checkLoading ? null : user.isLogin ? (
               <img
                 onClick={() => setShowSideBar(true)}
                 className="cursor-pointer rounded-full"
