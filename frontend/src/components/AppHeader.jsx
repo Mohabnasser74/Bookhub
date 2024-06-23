@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { useState } from "react";
 import Sidebar from "./home/Sidebar";
 import { useUser } from "./UserProvider";
+import { api } from "../main";
 
 const AppHeader = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(false);
@@ -23,7 +24,6 @@ const AppHeader = ({ children }) => {
               <span className="text-white py-2 ml-2">
                 <Link to={`/${user.user.login}`}>{user.user.login}</Link>
               </span>
-              // {"book-title"}
             )}
           </div>
           <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ const AppHeader = ({ children }) => {
               <img
                 onClick={() => setShowSideBar(true)}
                 className="cursor-pointer rounded-full"
-                src={user.user?.avatar_url}
+                src={`${api}/${user.user?.avatar_url}`}
                 alt="User Avatar"
                 width="40"
                 height="40"
