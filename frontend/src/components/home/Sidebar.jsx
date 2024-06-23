@@ -61,7 +61,9 @@ const Sidebar = ({ onClose }) => {
             <img
               className="mr-2.5"
               src={`${api}/${user.user?.avatar_url}`}
-              alt="user-image"
+              alt="User Avatar"
+              width="35"
+              height="35"
             />
             <span>{user.user.login ? user.user.login : "Username"}</span>
           </div>
