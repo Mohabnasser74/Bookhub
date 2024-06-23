@@ -40,8 +40,8 @@ const AppHeader = ({ children }) => {
                 className="cursor-pointer rounded-full"
                 src={`${api}/${user.user?.avatar_url}`}
                 alt="User Avatar"
-                width="40"
-                height="40"
+                width="35"
+                height="35"
               />
             ) : (
               <>

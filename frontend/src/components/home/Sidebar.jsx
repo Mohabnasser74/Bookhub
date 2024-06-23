@@ -60,7 +60,7 @@ const Sidebar = ({ onClose }) => {
           <div className="flex items-center">
             <img
               className="mr-2.5"
-              src={`${user.user?.avatar_url}`}
+              src={`${api}/${user.user?.avatar_url}`}
               alt="user-image"
             />
             <span>{user.user.login ? user.user.login : "Username"}</span>
