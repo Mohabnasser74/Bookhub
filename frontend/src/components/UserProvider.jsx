@@ -24,8 +24,7 @@ const UserProvider = ({ children }) => {
           credentials: "include",
         });
         const { username, loggedIn, code } = await checkResponse.json();
-
-        console.log(checkData);
+        console.log(loggedIn);
         if (loggedIn && location.search === ("login" || "signup")) {
           console.log(return_to);
           return_to ? navigate(`${return_to}`) : navigate("/");
@@ -34,16 +33,13 @@ const UserProvider = ({ children }) => {
         if (!loggedIn) {
           setUser({ loggedIn: false, user: {} });
         } else {
-          const userResponse = await fetch(
-            `${api}/users/${username}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: "include",
-            }
-          );
+          const userResponse = await fetch(`${api}/users/${username}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          });
           const userData = await userResponse.json();
 
           if (userData.code === 200) {
