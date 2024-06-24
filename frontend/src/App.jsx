@@ -56,9 +56,9 @@ const router = createBrowserRouter(routes);
 function App() {
   return (
     <Suspense fallback={<Spinner />}>
-      <UserProvider>
+      {/* <UserProvider> */}
         <RouterProvider router={router} />
-      </UserProvider>
+      {/* </UserProvider> */}
     </Suspense>
   );
 }
