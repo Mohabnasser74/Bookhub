@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { useState } from "react";
 import Sidebar from "./home/Sidebar";
 import { useUser } from "./UserProvider";
-import { api } from "../main";
+import { api } from "../App";
 
 const AppHeader = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(false);

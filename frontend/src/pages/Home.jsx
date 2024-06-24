@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../main";
+import { api } from "../App";
 import Spinner from "../components/Spinner";
 import BooksCard from "../components/home/BooksCard";
 import BooksTable from "../components/home/BooksTable";

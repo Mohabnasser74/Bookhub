@@ -1,7 +1,7 @@
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "../main";
+import { api } from "../App";
 import Spinner from "../components/Spinner";
 import { useLocation } from "react-router-dom";
 import { useUser } from "../components/UserProvider";

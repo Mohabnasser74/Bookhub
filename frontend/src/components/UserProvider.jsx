@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { api } from "../main";
+import { api } from "../App";
 import { useLocation } from "react-router-dom";
 
 const UserContext = createContext();

@@ -5,7 +5,7 @@ import Spinner from "../components/Spinner";
 import AppHeader from "../components/AppHeader";
 import { useEffect, useState } from "react";
 import Overveiw from "../components/profile/Overveiw";
-import { api } from "../main";
+import { api } from "../App";
 
 const Profile = () => {
   const { user } = useUser();

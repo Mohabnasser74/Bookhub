@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { api } from "../main";
+import { api } from "../App";
 
 const DeleteBooks = () => {
   const [book, setBook] = useState(null);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../main";
+import { api } from "../../App";
 import { useSnackbar } from "notistack";
 import { useUser } from "../UserProvider";
 
