@@ -25,7 +25,7 @@ export const api = "https://bookhub-ik4s.onrender.com";
 const showBookLoader = async ({ params }) => {
   try {
     const response = await fetch(
-      `${api}/books/${params.username}/${params.id}`,
+      `${api}/books/${params?.username}/${params?.id}`,
       {
         method: "GET",
         credentials: "include",

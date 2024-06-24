@@ -12,6 +12,8 @@ const AppHeader = ({ children }) => {
   const location = useLocation();
   const { pathname, search } = location;
 
+  console.log(children);
+
   return (
     <>
       <header className="bg-neutral-950 border-y-gray-600 border-solid border-b-2">
