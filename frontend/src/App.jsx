@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  Routes,
 } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import AppHeader from "./components/AppHeader";
@@ -32,7 +33,7 @@ const showBookLoader = async ({ params }) => {
 };
 
 const routes = createRoutesFromElements(
-  <>
+  <Routes>
     <Route path="/" element={<AppHeader />}>
       <Route index element={<Home />} />
       <Route
@@ -48,7 +49,7 @@ const routes = createRoutesFromElements(
     <Route path="/:username" element={<Profile />} />
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<SignUp />} />
-  </>
+  </Routes>
 );
 
 const router = createBrowserRouter(routes);
@@ -56,9 +57,9 @@ const router = createBrowserRouter(routes);
 function App() {
   return (
     <Suspense fallback={<Spinner />}>
-      {/* <UserProvider> */}
+      <UserProvider>
         <RouterProvider router={router} />
-      {/* </UserProvider> */}
+      </UserProvider>
     </Suspense>
   );
 }
