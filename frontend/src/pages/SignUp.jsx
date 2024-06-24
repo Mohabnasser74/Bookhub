@@ -21,7 +21,7 @@ const SignUp = () => {
   const return_to = queryParams.get("return_to");
 
   useEffect(() => {
-    if (user.isLogin) {
+    if (user.loggedIn) {
       return_to ? navigate(`${return_to}`) : navigate("/");
     }
   }, [return_to]);

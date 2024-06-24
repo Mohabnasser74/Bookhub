@@ -16,26 +16,26 @@ const UserProvider = ({ children }) => {
     const checkLoginStatus = async () => {
       setCheckLoading(true);
       try {
-        const checkResponse = await fetch(`${api}/check-login`, {
+        const checkResponse = await fetch(`${api}/users/status`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
         });
-        const checkData = await checkResponse.json();
+        const { username, loggedIn, code } = await checkResponse.json();
 
         console.log(checkData);
-        if (checkData.isLogin && location.search === ("login" || "signup")) {
+        if (loggedIn && location.search === ("login" || "signup")) {
           console.log(return_to);
           return_to ? navigate(`${return_to}`) : navigate("/");
           return;
         }
-        if (!checkData.isLogin) {
-          setUser({ isLogin: false, user: {} });
+        if (!loggedIn) {
+          setUser({ loggedIn: false, user: {} });
         } else {
           const userResponse = await fetch(
-            `${api}/users/${checkData.username}`,
+            `${api}/users/${username}`,
             {
               method: "GET",
               headers: {
@@ -47,14 +47,14 @@ const UserProvider = ({ children }) => {
           const userData = await userResponse.json();
 
           if (userData.code === 200) {
-            setUser({ isLogin: true, user: userData.user });
+            setUser({ loggedIn: true, user: userData.user });
           } else {
-            setUser({ isLogin: false, user: {} });
+            setUser({ loggedIn: false, user: {} });
           }
         }
       } catch (error) {
         console.error("Failed to check login status:", error);
-        setUser({ isLogin: false, user: {} });
+        setUser({ loggedIn: false, user: {} });
       } finally {
         setCheckLoading(false);
       }

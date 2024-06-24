@@ -21,7 +21,7 @@ const Login = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    if (user.isLogin) {
+    if (user.loggedIn) {
       return_to ? navigate(`${return_to}`) : navigate("/");
       return;
     }

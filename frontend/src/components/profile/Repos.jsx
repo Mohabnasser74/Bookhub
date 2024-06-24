@@ -95,7 +95,7 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
                 <div className="mb-2 flex justify-between items-center ">
                   <Link
                     to={
-                      user.isLogin
+                      user.loggedIn
                         ? `/${username}/${repo.bookId._id}`
                         : `/login?return_to=/${username}/${repo.bookId._id}`
                     }

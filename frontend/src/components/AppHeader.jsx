@@ -20,21 +20,21 @@ const AppHeader = ({ children }) => {
             <Link to="/" className="text-4xl">
               <MdMenuBook />
             </Link>
-            {user.isLogin && (
+            {user.loggedIn && (
               <span className="text-white py-2 ml-2">
                 <Link to={`/${user.user.login}`}>{user.user.login}</Link>
               </span>
             )}
           </div>
           <div className="flex items-center gap-2">
-            {user.isLogin && user.user.login === username && (
+            {user.loggedIn && user.user.login === username && (
               <Link to="/new">
                 <button className="text-white font-bold">
                   <MdOutlineAddBox className="hover:text-slate-400" />
                 </button>
               </Link>
             )}
-            {checkLoading ? null : user.isLogin ? (
+            {checkLoading ? null : user.loggedIn ? (
               <img
                 onClick={() => setShowSideBar(true)}
                 className="cursor-pointer rounded-full"

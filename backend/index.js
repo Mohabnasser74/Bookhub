@@ -69,21 +69,6 @@ app.get("/", isAuth, (_, res) => {
 app.use("/books", booksRouter);
 app.use("/users", usersRouter);
 
-app.get("/check-login", (req, res) => {
-  if (req.session.userId) {
-    return res.json({
-      code: 200,
-      isLogin: true,
-      username: req.session.username,
-    });
-  } else {
-    return res.json({
-      code: 200,
-      isLogin: false,
-    });
-  }
-});
-
 // Global error handler
 app.use((error, req, res, next) => {
   if (error.name === "ValidationError") {

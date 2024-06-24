@@ -1,10 +1,9 @@
 const { FAIL } = require("../utils/httpStatusText");
 
-const isAuth = (req, res, next) => {
-  if (req.session.isAuth) {
+const isAuthenticated = (req, res, next) => {
+  if (req.session.userId) {
     next();
   } else {
-    req.session.lastPath = true;
     res.status(401).json({
       status: FAIL,
       code: 401,
@@ -14,4 +13,4 @@ const isAuth = (req, res, next) => {
   }
 };
 
-module.exports = isAuth;
+module.exports = isAuthenticated;

@@ -25,7 +25,7 @@ const BooksTable = ({ books }) => {
             <div className="flex justify-center gap-x-4">
               <Link
                 to={
-                  user.isLogin
+                  user.loggedIn
                     ? `/${book.author}/${book._id}`
                     : `/login?return_to=/${book.author}/${book._id}`
                 }>

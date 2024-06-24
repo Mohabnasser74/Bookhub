@@ -7,16 +7,16 @@ const {
   deleteOneBook,
 } = require("../controllers/books.controllers");
 
-const isAuth = require("../middleware/isAuth.js");
+const isAuthenticated = require("../middleware/isAuthenticated.js");
 
 const booksRouter = express.Router();
 
-booksRouter.route("/").get(getBooks).post(isAuth, addAndPublishBook);
+booksRouter.route("/").get(getBooks).post(isAuthenticated, addAndPublishBook);
 
 booksRouter
   .route("/:username/:id")
-  .get(isAuth, getBook)
-  .put(isAuth, updateOneBook)
-  .delete(isAuth, deleteOneBook);
+  .get(isAuthenticated, getBook)
+  .put(isAuthenticated, updateOneBook)
+  .delete(isAuthenticated, deleteOneBook);
 
 module.exports = booksRouter;

@@ -41,7 +41,7 @@ const Profile = () => {
       }
     };
 
-    if (user.user?.login !== username || !user.isLogin) {
+    if (user.user?.login !== username || !user.loggedIn) {
       fetchUser();
     } else {
       setIsUserFound(true);
@@ -49,7 +49,7 @@ const Profile = () => {
       setReposCount(user.user.count_repos);
       setLoading(false);
     }
-  }, [username, user.user, user.isLogin]);
+  }, [username, user.user, user.loggedIn]);
 
   useEffect(() => {
     if (!tab) {

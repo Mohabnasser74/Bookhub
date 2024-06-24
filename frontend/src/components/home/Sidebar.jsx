@@ -28,7 +28,7 @@ const Sidebar = ({ onClose }) => {
         });
         onClose();
         setUser({
-          isLogin: false,
+          loggedIn: false,
           user: {},
         });
         navigate("/");

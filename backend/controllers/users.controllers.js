@@ -65,7 +65,7 @@ const signup = asyncWrapper(async (req, res, next) => {
 
   const hash_p = await bcrypt.hash(password, 10);
 
-  await new User({
+  const newUser = await new User({
     username,
     email,
     password: hash_p,
@@ -95,7 +95,7 @@ const signup = asyncWrapper(async (req, res, next) => {
   });
 
   if (req.session) {
-    req.session.isAuth = true;
+    req.session.userId = newUser._id;
     req.session.username = username;
   } else {
     return next({
@@ -152,7 +152,6 @@ const login = asyncWrapper(async (req, res, next) => {
     });
   }
 
-  req.session.isAuth = true;
   req.session.userId = currentUser[0]._id;
   req.session.username = currentUser[0].username;
 
