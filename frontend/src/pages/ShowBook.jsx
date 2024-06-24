@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import { Link, useParams, useNavigate, useLoaderData } from "react-router-dom";
-import { api } from "../main";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useSnackbar } from "notistack";
 import { useUser } from "../components/UserProvider";
 
 const ShowBook = () => {
-  const [book, setBook] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
 
   const { username } = useParams();
@@ -24,61 +23,24 @@ const ShowBook = () => {
       if (data.code === 200) {
         setBook(data.data.book);
         setIsCurrentUser(data.isCurrentUser);
-        return;
-      }
-      if (data.code === 401) {
-        setUser({
-          loggedIn: false,
-          user: {},
-        });
+      } else if (data.code === 401) {
+        setUser({ loggedIn: false, user: {} });
         navigate("/login");
-        return;
-      }
-      if (data.code === 500) {
+      } else if (data.code === 500 || data.code === 404) {
         enqueueSnackbar(data.message, { variant: "error" });
         navigate("/");
-        return;
       }
-      if (data.code === 404) {
-        enqueueSnackbar(data.message, { variant: "error" });
-        navigate("/");
-        return;
-      }
+      setLoading(false);
     }
-    // const getBookById = async () => {
-    //   setLoading(true);
-    //   try {
-    //     const data = await (
-    //       await fetch(`${api}/books/${username}/${id}`, {
-    //         method: "GET",
-    //         credentials: "include",
-    //       })
-    //     ).json();
-    //     if (data.code === 401) {
-    //       setUser({
-    //         loggedIn: false,
-    //         user: {},
-    //       });
-    //       navigate("/login");
-    //       return;
-    //     }
-    //     if (data.code === 404 || data.message === "Not Found") {
-    //       enqueueSnackbar(data.message, { variant: "error" });
-    //       navigate("/");
-    //       return;
-    //     }
-    //     setIsCurrentUser(data.isCurrentUser);
-    //     setBook(data.data.book);
-    //   } catch (error) {
-    //     console.error(error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // getBookById();
-  }, [data.code]);
+  }, [data, setUser, navigate, enqueueSnackbar]);
 
-  console.log(book);
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!book) {
+    return <div>No book found</div>;
+  }
 
   return (
     <div className="p-4">
