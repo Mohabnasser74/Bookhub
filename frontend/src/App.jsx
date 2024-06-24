@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Routes,
 } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import AppHeader from "./components/AppHeader";
@@ -24,16 +23,24 @@ const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 export const api = "https://bookhub-ik4s.onrender.com";
 
 const showBookLoader = async ({ params }) => {
-  const response = await fetch(`${api}/books/${params.username}/${params.id}`, {
-    method: "GET",
-    credentials: "include",
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(
+      `${api}/books/${params.username}/${params.id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return { error: true };
+  }
 };
 
-const routes = createRoutesFromElements(
-  <Routes>
+const router = createBrowserRouter(
+  createRoutesFromElements(
     <Route path="/" element={<AppHeader />}>
       <Route index element={<Home />} />
       <Route
@@ -45,14 +52,12 @@ const routes = createRoutesFromElements(
       <Route path=":username/:id/edit" element={<EditBook />} />
       <Route path=":username/:id/delete" element={<DeleteBooks />} />
       <Route path="*" element={<PageNotFound />} />
+      <Route path="/:username" element={<Profile />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
     </Route>
-    <Route path="/:username" element={<Profile />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<SignUp />} />
-  </Routes>
+  )
 );
-
-const router = createBrowserRouter(routes);
 
 function App() {
   return (
