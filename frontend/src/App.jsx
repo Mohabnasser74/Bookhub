@@ -41,8 +41,21 @@ const showBookLoader = async ({ params }) => {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<AppHeader />}>
-      <Route index element={<Home />} />
+    <Route
+      path="/"
+      element={
+        <Suspense fallback={<Spinner />}>
+          <AppHeader />
+        </Suspense>
+      }>
+      <Route
+        index
+        element={
+          <Suspense fallback={<Spinner />}>
+            <Home />
+          </Suspense>
+        }
+      />
       <Route
         path=":username/:id"
         element={<ShowBook />}
@@ -61,11 +74,11 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <Suspense fallback={<Spinner />}>
-      <UserProvider>
-        <RouterProvider router={router} />
-      </UserProvider>
-    </Suspense>
+    // <Suspense fallback={<Spinner />}>
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+    // </Suspense>
   );
 }
 
