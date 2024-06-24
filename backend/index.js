@@ -10,7 +10,7 @@ require("dotenv").config();
 const booksRouter = require("./router/books.route.js");
 const usersRouter = require("./router/users.route.js");
 const { ERROR } = require("./models/books.model");
-const isAuth = require("./middleware/isAuth.js");
+const isAuthenticated = require("./middleware/isAuthenticated.js");
 
 const app = express();
 
@@ -59,7 +59,7 @@ if (app.get("env") === "production") {
 
 app.use(session(sess));
 
-app.get("/", isAuth, (_, res) => {
+app.get("/", isAuthenticated, (_, res) => {
   res.json({
     data: null,
     message: "API",
