@@ -5,7 +5,7 @@ import Sidebar from "./home/Sidebar";
 import { useUser } from "./UserProvider";
 import { api } from "../App";
 
-const AppHeader = () => {
+const AppHeader = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(false);
   const { username } = useParams();
   const { user, checkLoading } = useUser();
@@ -75,6 +75,7 @@ const AppHeader = () => {
             )}
           </div>
         </div>
+        {children}
       </header>
       <Outlet />
       {showSideBar && (

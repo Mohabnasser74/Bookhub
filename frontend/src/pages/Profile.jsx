@@ -51,6 +51,8 @@ const Profile = () => {
     }
   }, [username, user.user, user.loggedIn]);
 
+  console.log(isUserFound)
+
   useEffect(() => {
     if (!tab) {
       setTarget("overveiw");
