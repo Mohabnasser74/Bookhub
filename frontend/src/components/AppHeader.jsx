@@ -5,14 +5,12 @@ import Sidebar from "./home/Sidebar";
 import { useUser } from "./UserProvider";
 import { api } from "../App";
 
-const AppHeader = ({ children }) => {
+const AppHeader = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const { username } = useParams();
   const { user, checkLoading } = useUser();
   const location = useLocation();
   const { pathname, search } = location;
-
-  console.log(children);
 
   return (
     <>
@@ -77,7 +75,6 @@ const AppHeader = ({ children }) => {
             )}
           </div>
         </div>
-        {children}
       </header>
       <Outlet />
       {showSideBar && (

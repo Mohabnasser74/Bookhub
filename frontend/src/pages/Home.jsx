@@ -3,10 +3,13 @@ import { api } from "../App";
 import Spinner from "../components/Spinner";
 import BooksCard from "../components/home/BooksCard";
 import BooksTable from "../components/home/BooksTable";
+import { useLoaderData } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
-export default function Home() {
+function Home() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [sBStorge, setSBStorge] = useState(
     localStorage.getItem("switch_button")
@@ -22,31 +25,18 @@ export default function Home() {
     }
   }, [sBStorge]);
 
-  useEffect(() => {
-    const getBooks = async () => {
-      setLoading(true);
-      try {
-        const data = await (
-          await fetch(`${api}/books`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          })
-        ).json();
-        if (data.code === 200) {
-          setBooks(data.data.books);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const booksData = useLoaderData();
 
-    getBooks();
-  }, []);
+  useEffect(() => {
+    if (booksData) {
+      if (booksData.code === 200) {
+        setBooks(booksData.data.books);
+      } else if (booksData.code === 500 || booksData.code === 404) {
+        enqueueSnackbar(booksData.message, { variant: "error" });
+      }
+      setLoading(false);
+    }
+  }, [booksData, enqueueSnackbar]);
 
   return (
     <div className="p-4">
@@ -89,10 +79,10 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {loading && <Spinner />}
               <BooksTable books={books} />
             </tbody>
           </table>
+          {loading && <Spinner />}
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -103,3 +93,22 @@ export default function Home() {
     </div>
   );
 }
+
+export const homeBooksLoader = async () => {
+  try {
+    const data = await (
+      await fetch(`${api}/books`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
+    ).json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export default Home;

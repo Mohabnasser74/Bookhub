@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate, useLoaderData } from "react-router-dom";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useSnackbar } from "notistack";
 import { useUser } from "../components/UserProvider";
+import { api } from "../App";
 
 const ShowBook = () => {
   const [book, setBook] = useState(null);
@@ -87,6 +88,23 @@ const ShowBook = () => {
       </div>
     </div>
   );
+};
+
+export const showBookLoader = async ({ params }) => {
+  try {
+    const response = await fetch(
+      `${api}/books/${params?.username}/${params?.id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return { error: true };
+  }
 };
 
 export default ShowBook;

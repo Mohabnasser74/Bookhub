@@ -1,13 +1,17 @@
-import { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  Router,
+  Routes,
 } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import AppHeader from "./components/AppHeader";
 import UserProvider from "./components/UserProvider";
+import { showBookLoader } from "./pages/ShowBook";
+import { homeBooksLoader } from "./pages/Home";
 
 const Home = lazy(() => import("./pages/Home"));
 const CreateBooks = lazy(() => import("./pages/CreateBooks"));
@@ -20,65 +24,39 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 // API Endpoint
-export const api = "https://bookhub-ik4s.onrender.com";
-
-const showBookLoader = async ({ params }) => {
-  try {
-    const response = await fetch(
-      `${api}/books/${params?.username}/${params?.id}`,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return { error: true };
-  }
-};
+// http://localhost:5000
+// https://bookhub-ik4s.onrender.com
+export const api = "http://localhost:5000";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route
-      path="/"
-      element={
-        <Suspense fallback={<Spinner />}>
-          <AppHeader />
-        </Suspense>
-      }>
-      <Route
-        index
-        element={
-          <Suspense fallback={<Spinner />}>
-            <Home />
-          </Suspense>
-        }
-      />
-      <Route
-        path=":username/:id"
-        element={<ShowBook />}
-        loader={showBookLoader}
-      />
-      <Route path="new" element={<CreateBooks />} />
-      <Route path=":username/:id/edit" element={<EditBook />} />
-      <Route path=":username/:id/delete" element={<DeleteBooks />} />
-      <Route path="*" element={<PageNotFound />} />
+    <>
+      <Route path="/" element={<AppHeader />}>
+        <Route index element={<Home />} loader={homeBooksLoader} />
+        <Route
+          path=":username/:id"
+          element={<ShowBook />}
+          loader={showBookLoader}
+        />
+        <Route path="new" element={<CreateBooks />} />
+        <Route path=":username/:id/edit" element={<EditBook />} />
+        <Route path=":username/:id/delete" element={<DeleteBooks />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Route>
       <Route path="/:username" element={<Profile />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-    </Route>
+    </>
   )
 );
 
 function App() {
   return (
-    // <Suspense fallback={<Spinner />}>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
-    // </Suspense>
+    <Suspense fallback={<Spinner />}>
+      <UserProvider>
+        <RouterProvider router={router} fallbackElement={<Spinner />} />
+      </UserProvider>
+    </Suspense>
   );
 }
 

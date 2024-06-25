@@ -25,7 +25,7 @@ const Login = () => {
       return_to ? navigate(`${return_to}`) : navigate("/");
       return;
     }
-  }, [return_to]);
+  }, [return_to, user.loggedIn]);
 
   const handleSubmit = async () => {
     try {
@@ -80,55 +80,60 @@ const Login = () => {
       enqueueSnackbar(error.message, { variant: "error" });
     }
   };
+  
 
-  return (
-    <div className="p-4">
-      <h1 className="text-3xl my-4">Login</h1>
-      <div className="my-4 mx-auto border-sky-400 border-solid border rounded-xl w-fit p-4">
-        <div className="my-4 flex flex-col w-96">
-          <label htmlFor="email" className="text-green-500">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Email"
-            className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label htmlFor="password" className="text-green-500">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+  if (!user.loggedIn && user.loggedIn !== undefined) {
+    return (
+      <div className="p-4">
+        <h1 className="text-3xl my-4">Login</h1>
+        <div className="my-4 mx-auto border-sky-400 border-solid border rounded-xl w-fit p-4">
+          <div className="my-4 flex flex-col w-96">
+            <label htmlFor="email" className="text-green-500">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label htmlFor="password" className="text-green-500">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              className="p-2 my-2 border-2 border-darkseagreen-400 rounded-2xl outline-none text-black"
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <button
-            className={`${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-400"
-            }  text-white font-bold py-2 px-4 rounded-xl my-4`}
-            onClick={loading ? null : handleSubmit}>
-            Log in
-          </button>
-          {loading && <Spinner />}
-          <span className="text-center">
-            <span>New user? </span>
-            <Link
-              to={"/signup"}
-              className="text-blue-500 no-underline hover:underline">
-              Create an account
-            </Link>
-          </span>
+            <button
+              className={`${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-400"
+              }  text-white font-bold py-2 px-4 rounded-xl my-4`}
+              onClick={loading ? null : handleSubmit}>
+              Log in
+            </button>
+            {loading && <Spinner />}
+            <span className="text-center">
+              <span>New user? </span>
+              <Link
+                to={"/signup"}
+                className="text-blue-500 no-underline hover:underline">
+                Create an account
+              </Link>
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <Spinner />;
+  }
 };
 
 export default Login;
