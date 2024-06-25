@@ -24,8 +24,8 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 // API Endpoint
-export const api = "http://localhost:5000";
-// export const api = "https://bookhub-ik4s.onrender.com";
+// export const api = "http://localhost:5000";
+export const api = "https://bookhub-ik4s.onrender.com";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
