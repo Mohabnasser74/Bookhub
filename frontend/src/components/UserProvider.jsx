@@ -19,7 +19,7 @@ const UserProvider = ({ children }) => {
           credentials: "include",
         });
         const { username, loggedIn, code } = await checkResponse.json();
-        console.log(loggedIn);
+
         if (!loggedIn) {
           setUser({ loggedIn: false, user: {} });
         } else {

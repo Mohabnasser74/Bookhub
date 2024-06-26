@@ -51,7 +51,7 @@ const Profile = () => {
     }
   }, [username, user.user, user.loggedIn]);
 
-  console.log(isUserFound)
+  console.log("PROFILE")
 
   useEffect(() => {
     if (!tab) {

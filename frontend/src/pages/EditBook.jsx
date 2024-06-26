@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { api } from "../App";
 import { useUser } from "../components/UserProvider";
@@ -11,7 +11,8 @@ const EditBook = () => {
   const { id, username } = useParams();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  const bookData = useLoaderData();
 
   useEffect(() => {
     if (user.user && user.user.login !== username) {
@@ -23,48 +24,23 @@ const EditBook = () => {
   }, [user, username, enqueueSnackbar, navigate]);
 
   useEffect(() => {
-    const fetchBook = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${api}/books/${username}/${id}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Referer: `${api}/${username}/${id}/edit`,
-          },
-        });
-
-        const data = await response.json();
-
-        if (data.code === 403) {
-          enqueueSnackbar(data.message, { variant: "error" });
-          navigate(`/${username}`);
-          return;
-        }
-
-        if (data.code === 404 || data.message === "Not Found") {
-          enqueueSnackbar(data.message, { variant: "error" });
-          navigate(-1);
-          return;
-        }
-
-        if (data.code === 401) {
-          navigate("/login");
-          return;
-        }
-
-        setTitle(data.data.book.title);
-      } catch (error) {
-        enqueueSnackbar("Failed to fetch book details", { variant: "error" });
-      } finally {
-        setLoading(false);
+    if (bookData) {
+      if (bookData.code === 200) {
+        setTitle(bookData.data.book.title);
+      } else if (bookData.code === 401) {
+        setUser({ loggedIn: false, user: {} });
+        navigate("/login");
+      } else if (bookData.code === 403) {
+        enqueueSnackbar(data.message, { variant: "error" });
+        navigate(`/${username}`);
+        return;
+      } else if (bookData.code === 500 || bookData.code === 404) {
+        enqueueSnackbar(bookData.message, { variant: "error" });
+        navigate("/");
       }
-    };
-
-    fetchBook();
-  }, [id, username, enqueueSnackbar, navigate]);
+      setLoading(false);
+    }
+  }, [bookData, setUser, navigate, enqueueSnackbar]);
 
   const handleSaveBook = async () => {
     try {

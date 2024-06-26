@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { api } from "../App";
+import { useUser } from "../components/UserProvider";
 
 const DeleteBooks = () => {
   const [book, setBook] = useState(null);
@@ -10,46 +11,27 @@ const DeleteBooks = () => {
   const { id, username } = useParams();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const bookData = useLoaderData();
+  const { setUser } = useUser();
 
   useEffect(() => {
-    const fetchBook = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`${api}/books/${username}/${id}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await response.json();
-
-        if (data.code === 404 || data.message === "Not Found") {
-          enqueueSnackbar(
-            "The book you tried to delete doesn't exist. " +
-              `(${data.message})`,
-            { variant: "warning" }
-          );
-          navigate(-1);
-          return;
-        }
-
-        if (data.code === 401) {
-          navigate("/login");
-          return;
-        }
-
-        setBook(data.data.book);
-      } catch (error) {
-        enqueueSnackbar("Failed to fetch book details", { variant: "error" });
-      } finally {
-        setLoading(false);
+    if (bookData) {
+      if (bookData.code === 200) {
+        setBook(bookData.data.book);
+      } else if (bookData.code === 401) {
+        setUser({ loggedIn: false, user: {} });
+        navigate("/login");
+      } else if (bookData.code === 403) {
+        enqueueSnackbar(data.message, { variant: "error" });
+        navigate(`/${username}`);
+        return;
+      } else if (bookData.code === 500 || bookData.code === 404) {
+        enqueueSnackbar(bookData.message, { variant: "error" });
+        navigate("/");
       }
-    };
-
-    fetchBook();
-  }, [id, username, enqueueSnackbar, navigate]);
+      setLoading(false);
+    }
+  }, [bookData, setUser, navigate, enqueueSnackbar]);
 
   const handleDeleteBook = async () => {
     setLoading(true);
