@@ -11,19 +11,15 @@ const repositorySchema = new Schema({
       addedDate: {
         type: Date,
       },
+      stargazers_count: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
   lastModified: {
     type: Date,
     default: new Date().toUTCString(),
-  },
-  stargazers_count: {
-    type: Number,
-    default: 0,
-  },
-  watchers_count: {
-    type: Number,
-    default: 0,
   },
 });
 

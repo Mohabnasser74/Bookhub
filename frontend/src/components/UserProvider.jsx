@@ -34,6 +34,8 @@ const UserProvider = ({ children }) => {
 
           if (userData.code === 200) {
             setUser({ loggedIn: true, user: userData.user });
+          } else if (userData.code === 404) {
+            setUser({ loggedIn: false, user: {} });
           } else {
             setUser({ loggedIn: false, user: {} });
           }

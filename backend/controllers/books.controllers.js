@@ -130,7 +130,7 @@ const updateOneBook = asyncWrapper(async (req, res, next) => {
 
   // res.setHeader("Cache-Control", "no-cache");
 
-  return res.status(200).json({
+  return res.status(201).json({
     status: SUCCESS,
     code: 201,
     message: "Book Updated Successfully",

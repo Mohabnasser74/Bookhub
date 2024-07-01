@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa6";
+import { IoIosStar } from "react-icons/io";
 import Spinner from "../Spinner";
+import { api } from "../../App";
 
 const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
   const [loading, setLoading] = useState(true);
   const [repositories, setRepositories] = useState([]);
   const [isStar, setIsStar] = useState(false);
+  const starRef = useRef();
 
   const { username } = useParams();
 
@@ -20,7 +23,8 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
     const fetchRepositories = async () => {
       setLoading(true);
       try {
-        const cacheKey = `${reposUrl}`;
+        // reposUrl
+        const cacheKey = `${api}/users/${username}/repos`;
         const cacheName = "repos-store-cache";
         const cache = await caches.open(cacheName);
         const cachedResponse = await cache.match(cacheKey);
@@ -66,6 +70,10 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
     fetchRepositories();
   }, [reposUrl]);
 
+  const handleStarCount = async (_id) => {
+    console.log(_id);
+  };
+
   return (
     <div>
       {isUserFound ? (
@@ -103,10 +111,22 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
                     {repo.bookId.title}
                   </Link>
                   <button
-                    onClick={() => setIsStar(!isStar)}
+                    onClick={async () => {
+                      const response = await fetch(
+                        `${api}/users/star/${username}/${repo.bookId._id}`,
+                        {
+                          method: "POST",
+                          credentials: "include",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                        }
+                      );
+                      console.log(response);
+                    }}
                     className="flex justify-between items-center px-1 gap-1 border-2 border-y-gray-600 rounded capitalize">
                     <FaRegStar />
-                    {isStar ? <span>starred</span> : <span>star</span>}
+                    <span>star</span>
                   </button>
                 </div>
                 <div className="flex justify-between items-center">

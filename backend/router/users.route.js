@@ -5,6 +5,8 @@ const {
   login,
   logout,
   getRepos,
+  editProfile,
+  star,
 } = require("../controllers/users.controllers");
 const isAuthenticated = require("../middleware/isAuthenticated.js");
 
@@ -33,5 +35,7 @@ usersRouter.post("/login", login);
 usersRouter.get("/logout", isAuthenticated, logout);
 usersRouter.get("/:username", getUser);
 usersRouter.get("/:username/repos", getRepos);
+usersRouter.put("/:username/edit-profile", isAuthenticated, editProfile);
+usersRouter.post("/star/:username/:id", isAuthenticated, star);
 
 module.exports = usersRouter;

@@ -18,14 +18,14 @@ const Login = () => {
   const queryParams = new URLSearchParams(location.search);
   const return_to = queryParams.get("return_to");
 
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   useEffect(() => {
     if (user.loggedIn) {
       return_to ? navigate(`${return_to}`) : navigate("/");
       return;
     }
-  }, [return_to, user.loggedIn]);
+  }, [return_to, user?.loggedIn]);
 
   const handleSubmit = async () => {
     try {
@@ -56,7 +56,6 @@ const Login = () => {
         enqueueSnackbar("Login Successfully", {
           variant: "success",
         });
-        
         return_to ? navigate(`${return_to}`) : navigate("/");
         return;
       }
@@ -81,7 +80,6 @@ const Login = () => {
       enqueueSnackbar(error.message, { variant: "error" });
     }
   };
-  
 
   if (!user.loggedIn && user.loggedIn !== undefined) {
     return (

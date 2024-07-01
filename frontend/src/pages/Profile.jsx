@@ -51,8 +51,6 @@ const Profile = () => {
     }
   }, [username, user.user, user.loggedIn]);
 
-  console.log("PROFILE")
-
   useEffect(() => {
     if (!tab) {
       setTarget("overveiw");
@@ -74,7 +72,9 @@ const Profile = () => {
                     !tab &&
                     "border-y-red-600 border-solid border-b-2"
                   }`}>
-                  <Link onClick={() => setTarget("overveiw")}>overveiw</Link>
+                  <Link onClick={() => setTarget("overveiw")} to="">
+                    overveiw
+                  </Link>
                 </li>
                 <li
                   className={`${

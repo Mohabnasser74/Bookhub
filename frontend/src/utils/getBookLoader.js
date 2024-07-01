@@ -17,7 +17,7 @@ const getBookLoader = async ({ params }) => {
     return data;
   } catch (error) {
     console.error(error);
-    return { error: true };
+    return null;;
   }
 };
 

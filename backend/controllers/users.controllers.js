@@ -8,6 +8,7 @@ const asyncWrapper = require("../middleware/asyncWrapper");
 const { SUCCESS, FAIL, ERROR } = require("../utils/httpStatusText");
 
 const baseUrl = "https://bookhub-ik4s.onrender.com";
+const htmlUrl = "https://booksub.onrender.com";
 
 const getUser = asyncWrapper(async (req, res, next) => {
   const username = req.params.username;
@@ -74,7 +75,7 @@ const signup = asyncWrapper(async (req, res, next) => {
   const newProfile = new Profile({
     login: username,
     url: `${baseUrl}/users/${username}`,
-    html_url: `${baseUrl}/${username}`,
+    html_url: `${htmlUrl}/${username}`,
     repos_url: `${baseUrl}/users/${username}/repos`,
     role: role,
   });
@@ -174,9 +175,11 @@ const login = asyncWrapper(async (req, res, next) => {
   });
 
   res.cookie("dotcom_user", `${currentUser[0].username}`, {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
+    domain: ".bookhub-ik4s.onrender.com",
+    path: "/",
+    maxAge: 3600,
     secure: true,
+    httpOnly: true,
     sameSite: "None",
   });
 
@@ -282,7 +285,78 @@ const getRepos = asyncWrapper(async (req, res, next) => {
     code: 200,
     count: repos[0]["books"].length,
     repos: repos[0]["books"],
+    stargazers_count: repos[0]["stargazers_coun"] || 0,
     message: "Repos fetched successfully",
+  });
+});
+
+const editProfile = asyncWrapper(async (req, res, next) => {
+  const username = req.params.username;
+
+  const { name, bio, company, location } = req.body;
+
+  const user = await Profile.findOneAndUpdate(
+    {
+      login: username,
+    },
+    {
+      $set: {
+        name: name,
+        bio: bio,
+        company: company,
+        location: location,
+        updatedAt: new Date(),
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!user) {
+    return next({
+      status: ERROR,
+      code: 404,
+      message: "Not Found",
+    });
+  }
+
+  res.status(200).json({
+    status: SUCCESS,
+    code: 200,
+    user,
+    message: "Profile updated successfully",
+  });
+});
+
+const star = asyncWrapper(async (req, res, next) => {
+  const repo = await UserRepository.findOneAndUpdate(
+    {
+      "books.bookId": req.params.id,
+    },
+    {
+      $inc: { "books.$.stargazers_count": 1 },
+      $set: {
+        lastModified: new Date().toUTCString(),
+      },
+    }
+  );
+
+  if (!repo) {
+    return next({
+      status: ERROR,
+      code: 400,
+      message: "Not Found",
+    });
+  }
+
+  // const newRepo = await UserRepository.find({
+  //   "books._id": "667d48733776d6e072640d9a",
+  // });
+  // console.log(newRepo.stargazers_count);
+
+  res.status(201).json({
+    count: repo,
   });
 });
 
@@ -292,4 +366,6 @@ module.exports = {
   login,
   logout,
   getRepos,
+  editProfile,
+  star,
 };

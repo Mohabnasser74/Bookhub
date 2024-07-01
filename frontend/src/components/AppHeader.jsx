@@ -37,7 +37,7 @@ const AppHeader = ({ children }) => {
             {checkLoading ? null : user.loggedIn ? (
               <img
                 onClick={() => setShowSideBar(true)}
-                className="cursor-pointer rounded-full"
+                className="cursor-pointer rounded-full border-1 border-gray-400 border-solid"
                 src={`${api}/${user.user?.avatar_url}`}
                 alt="User Avatar"
                 width="35"

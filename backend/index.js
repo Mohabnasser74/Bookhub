@@ -72,17 +72,24 @@ app.use("/users", usersRouter);
 app.use((error, req, res, next) => {
   if (error.name === "ValidationError") {
     if (error.errors.email) {
-      return res.status(404).json({
+      return res.status(400).json({
         message: `${error.errors.email.message}`,
         code: 400,
         data: null,
       });
     }
+  } else if (error.name === "MongoError" && error.code === 11000) {
+    return res.status(409).json({
+      message: "Duplicate key error",
+      code: 409,
+      data: null,
+    });
   }
-  res.status(error.code || 500).json({
-    status: error.status || ERROR,
+
+  res.status(error.status || 500).json({
+    status: error.status || "ERROR",
     message: error.message,
-    code: error.code || 500,
+    code: error.status || 500,
     data: null,
   });
 });
