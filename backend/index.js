@@ -16,8 +16,8 @@ const app = express();
 
 // Configure CORS
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://booksub.onrender.com"], // Allow both origins
-  credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
+  origin: ["http://localhost:5173", "https://booksub.onrender.com"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -45,15 +45,15 @@ const sess = {
   store: store,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+    secure: app.get("env") === "production",
+    sameSite: "None",
+    path: "/",
   },
 };
 
 if (app.get("env") === "production") {
   app.set("trust proxy", 1);
-  sess.cookie.httpOnly = true;
-  sess.cookie.secure = true; // Set to true for production when using HTTPS
-  sess.cookie.sameSite = "None"; // Important for allowing cross-site cookies
-  sess.cookie.path = "/";
 }
 
 app.use(session(sess));
