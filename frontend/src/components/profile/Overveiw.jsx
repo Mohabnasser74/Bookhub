@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import { api } from "../../App";
 import { useUser } from "../UserProvider";
 import { IoLocationOutline } from "react-icons/io5";
+import { FaRegStar } from "react-icons/fa6";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import fetchRepositories from "../../utils/fetchRepositories";
+import Spinner from "../Spinner";
 
 const Overveiw = ({ isUserFound }) => {
   const [loading, setLoading] = useState(false);
+  const [repositories, setRepositories] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
   const { user, setUser } = useUser();
 
@@ -28,6 +32,16 @@ const Overveiw = ({ isUserFound }) => {
 
   const handleSaveProfile = async () => {
     setLoading(true);
+    if (
+      user.user.name === name.trim() &&
+      user.user.bio === bio.trim() &&
+      user.user.company === company.trim() &&
+      user.user.location === location.trim()
+    ) {
+      setLoading(false);
+      setEditProfile(false);
+      return;
+    }
     try {
       const response = await fetch(
         `${api}/users/${user.user.login}/edit-profile`,
@@ -38,10 +52,10 @@ const Overveiw = ({ isUserFound }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name,
-            bio,
-            company,
-            location,
+            name: name?.trim(),
+            bio: bio?.trim(),
+            company: company?.trim(),
+            location: location?.trim(),
           }),
         }
       );
@@ -57,6 +71,10 @@ const Overveiw = ({ isUserFound }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchRepositories(api, username, setRepositories, setLoading);
+  }, []);
 
   return (
     <div className="p-4">
@@ -160,21 +178,46 @@ const Overveiw = ({ isUserFound }) => {
           </div>
           <div className="w-full relative">
             <h1>popular repositories</h1>
-            {user.user?.count_repos <= 0 && (
-              <div className="text-3xl font-bold text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                {user.user?.login === username ? (
-                  <span>
-                    <span className="text-green-500">You</span> doesn’t have any
-                    repositories yet.
-                  </span>
-                ) : (
-                  <span>
-                    <span className="text-green-500">{username}</span> doesn’t
-                    have any repositories yet.
-                  </span>
-                )}
-              </div>
-            )}
+            {user.user?.count_repos ||
+              (repositories.length <= 0 && (
+                <div className="text-3xl font-bold text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  {user.user?.login === username ? (
+                    <span>
+                      <span className="text-green-500">You</span> doesn’t have
+                      any repositories yet.
+                    </span>
+                  ) : (
+                    <span>
+                      <span className="text-green-500">{username}</span> doesn’t
+                      have any repositories yet.
+                    </span>
+                  )}
+                </div>
+              ))}
+            <div className="flex flex-wrap justify-evenly">
+              {loading && <Spinner />}
+              {repositories
+                .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                .slice(0, 6)
+                .map((repo) => (
+                  <div
+                    key={repo.bookId._id}
+                    className="my-2 border-2 border-gray-600 p-4 w-80 hover:shadow-md relative">
+                    <Link
+                      to={`/${username}/${repo.bookId._id}`}
+                      className="text-sky-400">
+                      {repo.bookId.title}
+                    </Link>
+                    <span className="bg-green-500 text-white p-2 absolute top-0 right-0">
+                      {repo.bookId.publishYear}
+                    </span>
+                    <div className="mt-2.5 flex justify-start items-center gap-1">
+                      <FaRegStar />
+                      <span>{repo.stargazers_count}</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       )}

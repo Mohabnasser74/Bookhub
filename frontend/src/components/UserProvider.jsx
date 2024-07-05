@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useSnackbar } from "notistack";
 import { api } from "../App";
 
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
   const [checkLoading, setCheckLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +20,8 @@ const UserProvider = ({ children }) => {
           },
           credentials: "include",
         });
-        const { username, loggedIn, code } = await checkResponse.json();
+        const { username, loggedIn, code, message } =
+          await checkResponse.json();
 
         if (!loggedIn) {
           setUser({ loggedIn: false, user: {} });

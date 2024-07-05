@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/users.model");
 const Profile = require("../models/profiles.model");
 const UserRepository = require("../models/repositories.model");
+const Book = require("../models/books.model");
+const Stargazer = require("../models/stargazers.model");
 
 const asyncWrapper = require("../middleware/asyncWrapper");
 const { SUCCESS, FAIL, ERROR } = require("../utils/httpStatusText");
@@ -244,7 +246,7 @@ const getRepos = asyncWrapper(async (req, res, next) => {
   )
     .populate({
       path: "books.bookId",
-      select: "title author updatedAt", // Ensure these fields exist in the Book schema
+      select: "title author updatedAt publishYear", // Ensure these fields exist in the Book schema
     })
     .exec();
 
@@ -330,35 +332,140 @@ const editProfile = asyncWrapper(async (req, res, next) => {
 });
 
 const star = asyncWrapper(async (req, res, next) => {
-  const repo = await UserRepository.findOneAndUpdate(
+  // Find the book by its ID and update the stargazers count
+  // book id-> req.params.id
+  const book = await Book.findOneAndUpdate(
+    { _id: req.params.id },
     {
-      "books.bookId": req.params.id,
+      $inc: { stargazers_count: 1 },
     },
+    { new: true } // This option returns the updated document
+  );
+
+  if (!book) {
+    return next({
+      status: 404,
+      code: 400,
+      message: "Book Not Found",
+    });
+  }
+
+  // Find the user repository by book ID and update the lastModified and stargazers_count
+  const repo = await UserRepository.findOneAndUpdate(
+    { "books.bookId": req.params.id },
     {
-      $inc: { "books.$.stargazers_count": 1 },
       $set: {
         lastModified: new Date().toUTCString(),
+        "books.$.stargazers_count": book.stargazers_count,
       },
-    }
+    },
+    { new: true } // This option returns the updated document
   );
 
   if (!repo) {
     return next({
-      status: ERROR,
+      status: 404,
       code: 400,
-      message: "Not Found",
+      message: "Repository Not Found",
     });
   }
 
-  // const newRepo = await UserRepository.find({
-  //   "books._id": "667d48733776d6e072640d9a",
-  // });
-  // console.log(newRepo.stargazers_count);
+  const user = await Profile.find({ login: req.session.username });
+
+  await Stargazer.updateOne(
+    { repoID: req.params.id },
+    {
+      $push: {
+        stargazers: {
+          userID: user[0]._id,
+          login: user[0].login,
+          url: user[0].url,
+          avatar_url: user[0].avatar_url,
+          html_url: user[0].html_url,
+          repos_url: user[0].repos_url,
+          role: user[0].role,
+        },
+      },
+    },
+    { upsert: true }
+  );
 
   res.status(201).json({
-    count: repo,
+    count: book.stargazers_count,
   });
 });
+
+const unstar = asyncWrapper(async (req, res, next) => {
+  // Find the book by its ID and update the stargazers count
+  const book = await Book.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      $inc: { stargazers_count: -1 },
+    },
+    { new: true } // This option returns the updated document
+  );
+
+  if (!book) {
+    return next({
+      status: 404,
+      code: 400,
+      message: "Book Not Found",
+    });
+  }
+
+  // Find the user repository by book ID and update the lastModified and stargazers_count
+  const repo = await UserRepository.findOneAndUpdate(
+    { "books.bookId": req.params.id },
+    {
+      $set: {
+        lastModified: new Date().toUTCString(),
+        "books.$.stargazers_count": book.stargazers_count,
+      },
+    },
+    { new: true } // This option returns the updated document
+  );
+
+  if (!repo) {
+    return next({
+      status: 404,
+      code: 400,
+      message: "Repository Not Found",
+    });
+  }
+
+  await Stargazer.updateOne(
+    { repoID: req.params.id },
+    {
+      $pull: {
+        stargazers: {
+          login: req.params.username,
+        },
+      },
+    },
+    { upsert: true }
+  );
+
+  res.status(201).json({
+    count: book.stargazers_count,
+  });
+});
+
+const stargazers = asyncWrapper(async (req, res, next) => {
+  const repoID = req.params.id;
+
+  console.log(repoID);
+
+  const usersStargazers = await Stargazer.find(
+    {
+      repoID: repoID,
+    },
+    { __v: false, repoID: false, _id: false }
+  );
+
+  res.status(200).json(usersStargazers[0]["stargazers"]);
+});
+
+// http://localhost:5000/users/:username/:id/stargazers
 
 module.exports = {
   getUser,
@@ -368,4 +475,6 @@ module.exports = {
   getRepos,
   editProfile,
   star,
+  unstar,
+  stargazers,
 };

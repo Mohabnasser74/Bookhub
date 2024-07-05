@@ -43,15 +43,20 @@ const EditBook = () => {
   }, [bookData, setUser, navigate, enqueueSnackbar]);
 
   const handleSaveBook = async () => {
+    setLoading(true);
+    if (title.trim() === bookData.data.book.title) {
+      setLoading(false);
+      navigate(`/${username}?tab=repositories`);
+      return;
+    }
     try {
-      setLoading(true);
       const response = await fetch(`${api}/books/${username}/${id}`, {
         method: "PUT",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ title: title.trim() }),
       });
 
       const data = await response.json();

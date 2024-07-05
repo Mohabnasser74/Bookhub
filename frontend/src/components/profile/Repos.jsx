@@ -4,75 +4,20 @@ import { FaRegStar } from "react-icons/fa6";
 import { IoIosStar } from "react-icons/io";
 import Spinner from "../Spinner";
 import { api } from "../../App";
+import fetchRepositories from "../../utils/fetchRepositories";
 
 const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
   const [loading, setLoading] = useState(true);
   const [repositories, setRepositories] = useState([]);
+  const [starCount, setStarCount] = useState(0);
   const [isStar, setIsStar] = useState(false);
   const starRef = useRef();
 
   const { username } = useParams();
 
-  // Utility function to check if the response is JSON
-  const isJSON = (response) => {
-    const contentType = response.headers.get("content-type");
-    return contentType && contentType.indexOf("application/json") !== -1;
-  };
-
   useEffect(() => {
-    const fetchRepositories = async () => {
-      setLoading(true);
-      try {
-        // reposUrl
-        const cacheKey = `${api}/users/${username}/repos`;
-        const cacheName = "repos-store-cache";
-        const cache = await caches.open(cacheName);
-        const cachedResponse = await cache.match(cacheKey);
-
-        const headers = {};
-        if (cachedResponse) {
-          const lastModified = cachedResponse.headers.get("Last-Modified");
-          if (lastModified) {
-            headers["If-Modified-Since"] = lastModified;
-          }
-        }
-
-        const response = await fetch(cacheKey, {
-          headers,
-          credentials: "include",
-        });
-
-        if (response.status === 200 && isJSON(response)) {
-          const responseData = await response.json();
-          const ReposReverse = responseData.repos.reverse();
-          setRepositories(ReposReverse);
-
-          const responseToCache = new Response(JSON.stringify(responseData), {
-            headers: {
-              "Last-Modified": response.headers.get("Last-Modified"),
-            },
-          });
-          await cache.put(cacheKey, responseToCache);
-        } else if (response.status === 304 && cachedResponse) {
-          const cachedBooks = await cachedResponse.json();
-          const ReposReverse = cachedBooks.repos;
-          setRepositories(ReposReverse);
-        } else {
-          console.error("Response was not JSON:", await response.text());
-        }
-      } catch (error) {
-        console.error("Failed to fetch repositories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRepositories();
-  }, [reposUrl]);
-
-  const handleStarCount = async (_id) => {
-    console.log(_id);
-  };
+    fetchRepositories(api, username, setRepositories, setLoading);
+  }, []);
 
   return (
     <div>
@@ -99,7 +44,7 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
                 className={`py-6 px-3 ${
                   i >= repositories.length - 1 ? "border-y-2" : "border-t-2"
                 } border-y-gray-600 border-solid text-white font-bold`}
-                key={repo._id}>
+                key={repo.bookId._id}>
                 <div className="mb-2 flex justify-between items-center ">
                   <Link
                     to={
@@ -107,13 +52,17 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
                         ? `/${username}/${repo.bookId._id}`
                         : `/login?return_to=/${username}/${repo.bookId._id}`
                     }
-                    className="text-green-500 text-2xl no-underline hover:underline">
+                    className="text-sky-400 text-2xl no-underline hover:underline">
                     {repo.bookId.title}
                   </Link>
                   <button
-                    onClick={async () => {
+                    ref={starRef}
+                    onClick={async (e) => {
+                      setIsStar(!isStar);
                       const response = await fetch(
-                        `${api}/users/star/${username}/${repo.bookId._id}`,
+                        isStar
+                          ? `${api}/users/${username}/${repo.bookId._id}/unstar`
+                          : `${api}/users/${username}/${repo.bookId._id}/star`,
                         {
                           method: "POST",
                           credentials: "include",
@@ -122,11 +71,28 @@ const Repos = ({ user, isUserFound, reposUrl, reposCount }) => {
                           },
                         }
                       );
-                      console.log(response);
+                      const data = await response.json();
+                      setStarCount(data.count);
                     }}
-                    className="flex justify-between items-center px-1 gap-1 border-2 border-y-gray-600 rounded capitalize">
-                    <FaRegStar />
-                    <span>star</span>
+                    className={`${repo.bookId.title} flex justify-between items-center p-1 gap-1 border-2 border-y-gray-600 rounded capitalize py-px px-2.5`}>
+                    {isStar ? <IoIosStar color="yellow" /> : <FaRegStar />}
+                    <span>
+                      {isStar ? (
+                        <span>
+                          starred{" "}
+                          <span className="rounded-full bg-zinc-900">
+                            {starCount}
+                          </span>
+                        </span>
+                      ) : (
+                        <span>
+                          star{" "}
+                          <span className="rounded-full bg-zinc-700">
+                            {repo.stargazers_count}
+                          </span>
+                        </span>
+                      )}
+                    </span>
                   </button>
                 </div>
                 <div className="flex justify-between items-center">

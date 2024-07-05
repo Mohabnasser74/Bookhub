@@ -7,6 +7,8 @@ const {
   getRepos,
   editProfile,
   star,
+  unstar,
+  stargazers,
 } = require("../controllers/users.controllers");
 const isAuthenticated = require("../middleware/isAuthenticated.js");
 
@@ -36,6 +38,9 @@ usersRouter.get("/logout", isAuthenticated, logout);
 usersRouter.get("/:username", getUser);
 usersRouter.get("/:username/repos", getRepos);
 usersRouter.put("/:username/edit-profile", isAuthenticated, editProfile);
-usersRouter.post("/star/:username/:id", isAuthenticated, star);
+usersRouter.post("/:username/:id/star", isAuthenticated, star);
+usersRouter.post("/:username/:id/unstar", isAuthenticated, unstar);
+usersRouter.get("/:username/:id/stargazers", stargazers);
+// :id -> repo-id
 
 module.exports = usersRouter;

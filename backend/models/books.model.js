@@ -21,6 +21,10 @@ const bookSchema = new Schema(
       type: Number,
       default: new Date(new Date()).getFullYear(),
     },
+    stargazers_count: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

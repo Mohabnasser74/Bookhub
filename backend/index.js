@@ -42,11 +42,12 @@ const sess = {
   secret: process.env.SESSION_SECRET || "MY_SESSION_SECRET_HAHAHA",
   resave: false,
   saveUninitialized: false,
+
   store: store,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
-    secure: app.get("env") === "production",
+    secure: true,
     sameSite: "None",
     path: "/",
   },

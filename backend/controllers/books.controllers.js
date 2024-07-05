@@ -1,6 +1,7 @@
 const Book = require("../models/books.model");
 const UserRepository = require("../models/repositories.model");
 const Profile = require("../models/profiles.model");
+const Stargazer = require("../models/stargazers.model");
 
 const asyncWrapper = require("../middleware/asyncWrapper");
 const { SUCCESS, FAIL } = require("../utils/httpStatusText");
@@ -56,6 +57,10 @@ const addAndPublishBook = asyncWrapper(async (req, res, next) => {
     { login: req.cookies.dotcom_user },
     { $inc: { count_repos: 1 }, updatedAt: new Date() }
   );
+
+  await new Stargazer({
+    repoID: newBook._id,
+  }).save();
 
   res.status(201).json({
     status: SUCCESS,
