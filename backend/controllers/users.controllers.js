@@ -453,8 +453,6 @@ const unstar = asyncWrapper(async (req, res, next) => {
 const stargazers = asyncWrapper(async (req, res, next) => {
   const repoID = req.params.id;
 
-  console.log(repoID);
-
   const usersStargazers = await Stargazer.find(
     {
       repoID: repoID,
@@ -464,8 +462,6 @@ const stargazers = asyncWrapper(async (req, res, next) => {
 
   res.status(200).json(usersStargazers[0]["stargazers"]);
 });
-
-// http://localhost:5000/users/:username/:id/stargazers
 
 module.exports = {
   getUser,
