@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import { api } from "../App";
 
@@ -9,7 +9,7 @@ const UserProvider = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [checkLoading, setCheckLoading] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const checkLoginStatus = async () => {
       setCheckLoading(true);
       try {
